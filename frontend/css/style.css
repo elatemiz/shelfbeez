@@ -160,6 +160,7 @@ img {
     gap: 12px;
 }
 
+
 .nav-links a:hover {
     color: var(--secondary);
 }
@@ -167,14 +168,25 @@ img {
 .login-btn {
     padding: 10px 16px;
     color: var(--primary);
+    transition: color 0.3s ease;
 }
-
 
 .register-btn {
     padding: 10px 18px;
     border-radius: 8px;
     background-color: var(--primary);
     color: var(--background);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-btn:hover {
+    color: var(--secondary);
+}
+
+
+.register-btn:hover {
+    background-color: var(--secondary);
+    transform: translateY(-1px);
 }
 
 
@@ -198,12 +210,11 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 600px;
-    gap: 60px;
+    gap: 60px; 
 }
 
 .hero-text {
-    
+    flex: 1;
 }
 
 .hero-subtitle {
@@ -244,64 +255,97 @@ img {
    5. HERO BOOKSHELF
    ================================================== */
 .hero-bookshelf {
-    flex: 1;
+    width: 45%;
+
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    transform: translate(-20px, 80px);
 }
 
 .bookshelf {
     position: relative;
-    width: 400px;
-    max-width: 100%;
-    transform: translateY(60px);
+
+    width: 360px;
+    height: 430px;
+
+    padding: 15px 18px 20px;
+
+    background-color: #725c42;
+
+    border-radius: 5px;
+
+    box-shadow:
+        inset 8px 0 0 rgba(0, 0, 0, 0.08),
+        inset -8px 0 0 rgba(0, 0, 0, 0.08),
+        0 12px 25px rgba(80, 60, 40, 0.18);
+
+    transition: transform 0.3s ease;
 }
 
-
-.decor-cup,
-.decor-light,
-.decor-bee,
-.decor-candle,
-.decor-plant{
+.bookshelf-top {
     position: absolute;
-    z-index: 2;
+
+    top: -8px;
+    left: -8px;
+
+    width: calc(100% + 16px);
+    height: 18px;
+
+    background-color: #634d36;
+
+    border-radius: 4px;
 }
 
-.decor-cup {
-    width: 60px;
-    top: -33px;
-    left: 20px;
+.shelf-row {
+    position: relative;
+
+    width: 100%;
+    height: 115px;
+
+    display: flex;
+    align-items: flex-end;
+
+    gap: 5px;
+
+    padding: 10px 12px 12px;
+
+    background-color: #80694b;
+
+    border-bottom: 12px solid #5f4933;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
 }
 
-.decor-candle {
-    width: 50px;
-    top: -36px;
-    right: 20px;
+.shelf-row::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 12px;
+
+    background-color: rgba(45, 32, 20, 0.12);
 }
 
-.plant-one {
-    width: 80px;
-    top: 112px;
-    left: 25px;
-}
 
-.plant-two {
-    width: 65px;
-    top: 321px;
-    right: 32px;
-}
+.bookshelf-bottom {
+    position: absolute;
 
-.decor-bee{
-    width: 35px;
-    top: -75px;
-    right: 300px;
+    bottom: -8px;
+    left: -8px;
 
-}
+    width: calc(100% + 16px);
+    height: 18px;
 
-.decor-light{
-    width: 500px;
-    top: -200px;
-    left: -880px;
+    background-color: #634d36;
+
+    border-radius: 4px;
 }
 
 .book {
@@ -475,48 +519,119 @@ img {
 
 .book-search {
     padding: 100px 0;
-    text-align: center;
+    background-color: var(--background);
 }
 
 .search-content {
-    /* search content */
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-label {
+    margin-bottom: 12px;
+    color: var(--secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .search-content h2 {
-    /* heading */
+    margin-bottom: 18px;
+    color: var(--primary);
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
-.search-content > p {
-    /* description */
+.search-content > p:not(.section-label) {
+    max-width: 450px;
+    margin: 0 auto 35px;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-family: "Epilogue";
 }
 
 .search-form {
     display: flex;
-    max-width: 600px;
-    margin: 30px auto;
+    max-width: 500px;
+    margin: 0 auto 25px;
+
+    background-color: hsl(40, 100%, 98%);
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
 }
+
 
 .search-form input {
     flex: 1;
-    padding: 14px 18px;
+    min-width: 0;
+    padding: 16px 20px;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.search-form input::placeholder {
+    color: var(--secondary);
+    opacity: 1;
 }
 
 .search-form button {
-    padding: 14px 24px;
+    padding: 14px 28px;
+
     border: none;
+    border-radius: 5px;
+
+    background-color: var(--primary);
+    color: var(--background);
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: var(--secondary);
 }
 
 .categories {
     display: flex;
     justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
 .categories a {
-    /* category buttons */
+    padding: 8px 16px;
+
+    border: 1px solid var(--secondary);
+    border-radius: 30px;
+    background-color: #F2D7D9;
+
+    color: var(--primary);
+    font-size: 0.8rem;
+    text-decoration: none;
+
+    transition: all 0.3s ease;
 }
+
+.categories a:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--background);
+}
+
 
 
 /* ==================================================
@@ -524,58 +639,53 @@ img {
    ================================================== */
 
 .footer {
-    padding: 60px 0 30px;
+    padding: 65px 0 25px;
+    background-color: var(--surface);
+    color: var(--primary);
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    gap: 60px;
+    padding-bottom: 45px;
 }
 
 .footer-brand {
-    /* footer brand */
+    max-width: 300px;
 }
+
+.footer-brand p {
+    color: var(--text);
+    font-family: "Epilogue";
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 
 .footer-links {
     display: flex;
-    gap: 80px;
+    gap: 90px;
 }
 
 .footer-links div {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .footer-links h3 {
-    /* footer heading */
+    margin-bottom: 8px;
+ 
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 .footer-bottom {
+    text-align: center;
     margin-top: 50px;
     padding-top: 20px;
-}
-
-
-/* ==================================================
-   10. HOVER EFFECTS
-   ================================================== */
-
-.nav-links a:hover {
-    /* nav hover */
-}
-
-.book-card:hover {
-    /* book card hover */
-}
-
-.shelf-card:hover {
-    /* shelf hover */
-}
-
-.categories a:hover {
-    /* category hover */
 }
 
 

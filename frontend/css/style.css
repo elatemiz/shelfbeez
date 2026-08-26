@@ -387,7 +387,6 @@ img {
     /* individual book */
 }
 
-
 /* ==================================================
    6. TRENDING BOOKS
    ================================================== */
@@ -441,14 +440,12 @@ img {
     color: #5E554A;
     text-shadow: none;
 }
-
 .book-info p {
     margin: 0;
     font-size: 14px;
     color: #776B5D;
     text-shadow: none;
 }
-
 
 /* ==================================================
    7. POPULAR SHELVES
@@ -546,7 +543,6 @@ img {
     font-size: 14px;
     color: var(--secondary);
 }
-
 
 /* ==================================================
    8. SEARCH SECTION
@@ -667,8 +663,6 @@ img {
     color: var(--background);
 }
 
-
-
 /* ==================================================
    9. FOOTER
    ================================================== */
@@ -723,10 +717,6 @@ img {
     padding-top: 20px;
     font-size: 14px;
 }
-
-
-
-
 /* ==================================================
    11. RESPONSIVE DESIGN
    ================================================== */
@@ -780,7 +770,6 @@ img {
         gap: 40px;
     }
 }
-
 /* ==================================================
    LOGIN PAGE
 ================================================== */
@@ -840,7 +829,6 @@ img {
                 0 6px 15px rgba(70, 50, 35, 0.20);
 }
 
-
 /* ==================== LOGIN HEADER ==================== */
 
 .login-header {
@@ -864,7 +852,6 @@ img {
     font-size: 17px;
     color: var(--primary);
 }
-
 
 /* ==================== LOGIN FORM ==================== */
 
@@ -920,7 +907,6 @@ img {
     box-shadow: 0 0 0 3px rgba(119, 107, 93, 0.12);
 }
 
-
 /* ==================== FORM OPTIONS ==================== */
 
 .form-options {
@@ -961,7 +947,6 @@ img {
     opacity: 0.7;
 }
 
-
 /* ==================== LOGIN BUTTON ==================== */
 
 .login-submit {
@@ -995,7 +980,6 @@ img {
     transform: translateY(0);
 }
 
-
 /* ==================== LOGIN FOOTER ==================== */
 
 .login-footer {
@@ -1023,7 +1007,6 @@ img {
     opacity: 0.7;
 }
 
-
 /* ==================== REGISTER / LOGIN PAGE ==================== */
 
 .login-page {
@@ -1035,8 +1018,6 @@ img {
     padding: 70px 20px;
     overflow: hidden;
 }
-
-
 /* ==================== LOGIN CARD ==================== */
 
 .login-card {
@@ -1055,8 +1036,6 @@ img {
         0 12px 30px rgba(80, 65, 50, 0.25),
         0 4px 10px rgba(80, 65, 50, 0.15);
 }
-
-
 /* ==================== LOGIN CONTENT ==================== */
 
 .login-content {
@@ -1085,8 +1064,6 @@ img {
     font-weight: 420;
     line-height: 1.5;
 }
-
-
 /* ==================== FORM ==================== */
 
 .login-form {
@@ -1140,9 +1117,6 @@ img {
     box-shadow:
         0 0 0 3px rgba(119, 107, 93, 0.12);
 }
-
-
-
 /* ==================== LOGIN / REGISTER TEXT ==================== */
 
 .register-text {
@@ -1166,7 +1140,6 @@ img {
     opacity: 0.7;
 }
 
-
 /* ==================== DECORATIVE PLANTS ==================== */
 
 .login-plant-left,
@@ -1181,23 +1154,15 @@ img {
     pointer-events: none;
 }
 
-
-/* Left plant */
-
 .login-plant-left {
     left: -80px;
     bottom: -20px;
 }
 
-
-/* Right plant */
-
 .login-plant-right {
     right: -80px;
     bottom: -20px;
 }
-
-
 /* ==================== RESPONSIVE ==================== */
 
 @media (max-width: 900px) {
@@ -1280,6 +1245,657 @@ img {
 
     .login-plant-right {
         right: -155px;
+    }
+}
+
+/* ==================================================
+   PROFILE PAGE
+================================================== */
+
+.profile-page {
+    min-height: calc(100vh - 80px);
+    padding: 60px 7% 80px;
+}
+
+/* ==================================================
+   PROFILE HEADER
+================================================== */
+
+.profile-header {
+    max-width: 1100px;
+    margin: 0 auto 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 30px 35px;
+
+    background-color: var(--surface);
+    border-radius: 15px;
+
+    box-shadow:
+        0 8px 20px rgba(80, 60, 40, 0.10);
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Profile Avatar */
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background-color: var(--background);
+
+    border: 4px solid var(--accent);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* Profile Details */
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-username {
+    margin: 0;
+
+    color: var(--primary);
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.profile-bio {
+    margin: 0;
+
+    color: var(--text);
+    font-family: "Epilogue";
+    font-size: 15px;
+}
+
+/* Profile Stats */
+
+.profile-stats {
+    display: flex;
+    gap: 25px;
+
+    margin-top: 8px;
+}
+
+.profile-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.stat-number {
+    color: var(--primary);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.stat-label {
+    color: var(--accent);
+    font-size: 13px;
+}
+
+
+/* Edit Profile Button */
+
+.edit-profile-btn {
+    padding: 10px 20px;
+
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+
+    background-color: transparent;
+    color: var(--primary);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+
+/* ==================================================
+   PROFILE LIBRARY
+================================================== */
+
+.profile-library {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* Library Header */
+
+.library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 35px;
+}
+
+.library-header h2 {
+    margin: 0 0 5px;
+
+    color: var(--primary);
+
+    font-size: 26px;
+}
+
+.library-header p {
+    margin: 0;
+
+    color: var(--accent);
+    font-family: "Epilogue";
+
+    font-size: 14px;
+}
+
+
+/* Add Book Button */
+
+.add-book-btn {
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: var(--primary);
+    color: var(--background);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.add-book-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(80, 60, 40, 0.18);
+}
+
+
+/* ==================================================
+   PROFILE BOOKSHELF WRAPPER
+================================================== */
+
+.profile-bookshelf-wrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+/* ==================================================
+   TWO BOOKSHELVES
+================================================== */
+
+.profile-bookshelves {
+    display: flex;
+    align-items: stretch;
+
+    width: 100%;
+    max-width: 1000px;
+
+    filter:
+        drop-shadow(0 15px 20px rgba(80, 60, 40, 0.18));
+}
+
+
+/* ==================================================
+   INDIVIDUAL PROFILE BOOKSHELF
+================================================== */
+
+.profile-bookshelf {
+    position: relative;
+
+    flex: 1;
+
+    height: 470px;
+
+    padding: 15px 18px 20px;
+
+    background-color: #725c42;
+
+    box-sizing: border-box;
+
+    overflow: visible;
+}
+
+
+/*
+   Remove rounded corners from the middle.
+   The two shelves should look like one large bookshelf.
+*/
+
+.profile-bookshelf:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.profile-bookshelf:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+
+/* ==================================================
+   BOOKSHELF TOP
+================================================== */
+
+.profile-bookshelf .bookshelf-top {
+    position: absolute;
+
+    top: -8px;
+    left: -8px;
+
+    width: calc(100% + 16px);
+    height: 18px;
+
+    background-color: #634d36;
+
+    border-radius: 4px;
+
+    z-index: 5;
+}
+
+
+/* ==================================================
+   SHELF ROW
+================================================== */
+
+.profile-bookshelf .shelf-row {
+    position: relative;
+
+    width: 100%;
+    height: 105px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 10px 12px 12px;
+
+    background-color: #80694b;
+
+    border-bottom: 12px solid #5f4933;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* Shelf Shadow */
+
+.profile-bookshelf .shelf-row::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 12px;
+
+    background-color: rgba(45, 32, 20, 0.12);
+}
+
+
+/* ==================================================
+   BOOK CONTAINER
+================================================== */
+
+.profile-bookshelf .books {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: flex-start;
+
+    gap: 6px;
+
+    overflow: hidden;
+}
+
+
+/* ==================================================
+   BOOKSHELF BOTTOM
+================================================== */
+
+.profile-bookshelf .bookshelf-bottom {
+    position: absolute;
+
+    bottom: -8px;
+    left: -8px;
+
+    width: calc(100% + 16px);
+    height: 18px;
+
+    background-color: #634d36;
+
+    border-radius: 4px;
+
+    z-index: 5;
+}
+
+
+/* ==================================================
+   BOOK
+================================================== */
+
+.profile-bookshelf .book {
+    flex-shrink: 0;
+
+    width: 38px;
+    height: 80px;
+
+    border-radius: 2px 2px 0 0;
+
+    box-shadow:
+        2px 0 3px rgba(0, 0, 0, 0.15);
+
+    transition:
+        transform 0.25s ease;
+}
+
+.profile-bookshelf .book:hover {
+    transform: translateY(-6px);
+}
+
+
+/* ==================================================
+   PROFILE ACTIVITY
+================================================== */
+
+.profile-activity {
+    max-width: 1000px;
+
+    margin: 70px auto 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+
+    color: var(--primary);
+
+    font-size: 24px;
+}
+
+.section-header a {
+    color: var(--secondary);
+
+    font-size: 14px;
+
+    text-decoration: none;
+}
+
+.section-header a:hover {
+    color: var(--primary);
+}
+
+
+/* Activity List */
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 18px;
+
+    background-color: var(--surface);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 12px rgba(80, 60, 40, 0.08);
+}
+
+
+/* Activity Book */
+
+.activity-book-cover {
+    width: 45px;
+    height: 65px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 3px;
+}
+
+.activity-book-cover img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* Activity Content */
+
+.activity-content p {
+    margin: 0 0 5px;
+
+    color: var(--text);
+
+    font-size: 14px;
+}
+
+.activity-content strong {
+    color: var(--primary);
+}
+
+.activity-date {
+    color: var(--secondary);
+
+    font-size: 12px;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 900px) {
+
+    .profile-page {
+        padding: 45px 5% 60px;
+    }
+
+    .profile-header {
+        padding: 25px;
+    }
+
+    .profile-bookshelves {
+        max-width: 750px;
+    }
+
+    .profile-bookshelf {
+        height: 420px;
+    }
+
+    .profile-bookshelf .shelf-row {
+        height: 95px;
+    }
+
+    .profile-bookshelf .book {
+        width: 32px;
+        height: 70px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .profile-info {
+        width: 100%;
+    }
+
+    .edit-profile-btn {
+        align-self: flex-end;
+    }
+
+    .library-header {
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .profile-bookshelves {
+        max-width: 100%;
+    }
+
+    .profile-bookshelf {
+        height: 350px;
+
+        padding: 12px 10px 15px;
+    }
+
+    .profile-bookshelf .shelf-row {
+        height: 78px;
+
+        padding: 7px 8px 9px;
+
+        border-bottom-width: 9px;
+    }
+
+    .profile-bookshelf .book {
+        width: 25px;
+        height: 58px;
+    }
+
+    .profile-bookshelf .books {
+        gap: 3px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .profile-page {
+        padding: 30px 4% 50px;
+    }
+
+    .profile-info {
+        gap: 15px;
+    }
+
+    .profile-avatar {
+        width: 75px;
+        height: 75px;
+    }
+
+    .profile-username {
+        font-size: 22px;
+    }
+
+    .profile-bio {
+        font-size: 13px;
+    }
+
+    .profile-stats {
+        gap: 12px;
+    }
+
+    .library-header h2 {
+        font-size: 21px;
+    }
+
+    .library-header p {
+        font-size: 12px;
+    }
+
+    .add-book-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .profile-bookshelf {
+        height: 290px;
+
+        padding: 10px 7px 12px;
+    }
+
+    .profile-bookshelf .shelf-row {
+        height: 65px;
+
+        padding: 5px 5px 7px;
+
+        border-bottom-width: 7px;
+    }
+
+    .profile-bookshelf .book {
+        width: 20px;
+        height: 48px;
     }
 }
 

@@ -281,6 +281,38 @@ img {
         0 12px 25px rgba(80, 60, 40, 0.18);
 
     transition: transform 0.3s ease;
+
+    overflow: visible;
+}
+
+.decor {
+    position: absolute;
+    z-index: 10;
+}
+
+.plant{
+    width: 75px;
+    top: 277px;
+    right: 20px;
+
+}
+
+.cup {
+    width: 55px;
+    top: -80px;
+    left: 37px;
+}
+
+.bookstack{
+    width: 120px;
+    top: -52px;
+    left: 5px;
+
+}
+.pot{
+    width: 55px;
+    top: -73px;
+    right: 75px;
 }
 
 .bookshelf-top {
@@ -455,7 +487,7 @@ img {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 15px;
+    gap: clamp(5px, 1vw, 15px);
     padding: 20px 5px 0;
     background-color: var(--background);
     border-radius: 7px;
@@ -465,7 +497,7 @@ img {
 
 .decor-light {
     position: absolute;
-    width: 500px;
+    width: 100%;
     height: auto;
     top: -5px;
     left: 50%;
@@ -476,8 +508,8 @@ img {
 }    
    
 .shelf-book {
-    width: 100px;
-    height: 140px;
+    width: clamp(60px, 8vw, 100px);
+    height: clamp(90px, 11vw, 140px);
     flex-shrink: 0;
     overflow: hidden;
     border-radius: 3px 3px 0 0;

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | BookShelf</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+<body>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="navbar">
+        <div class="container">
+
+            <a href="index.html" class="logo">
+                ShelfBeez
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="books.html">Books</a>
+                <a href="profile.html">Community</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="register.html" class="register-btn">Sign Up</a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ==================== REGISTER PAGE ==================== -->
+    <main class="login-page">
+
+        <!-- Decorative plant -->
+       
+            <img src="assets/images/plant_login.svg" class="login-plant-right">
+
+            <img src="assets/images/plant_login.svg" class="login-plant-left" alt="">
+
+        <div class="login-card">
+
+            <div class="login-content">
+
+                <h1>Create an account</h1>
+
+                <p class="login-subtitle">
+                    Join ShelfBeez and start your reading journey.
+                </p>
+
+                <form class="login-form">
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Choose a username"
+                            required
+                        >
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a password"
+                            required
+                        >
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+
+                        <input
+                            type="password"
+                            id="confirm-password"
+                            name="confirm-password"
+                            placeholder="Confirm your password"
+                            required
+                        >
+                    </div>
+
+                    <!-- Register Button -->
+                    <button type="submit" class="login-submit">
+                        Create Account
+                    </button>
+
+                </form>
+
+                <p class="register-text">
+                    Already have an account?
+                    <a href="login.html">Login</a>
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-bottom">
+        <p>&copy; 2026 BookShelf. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

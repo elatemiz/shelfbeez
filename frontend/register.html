@@ -60,7 +60,7 @@
                     Join ShelfBeez and start your reading journey.
                 </p>
 
-                <form class="login-form">
+                <form class="login-form" novalidate>
 
                     <!-- Full Name -->
                     <div class="form-group">
@@ -73,6 +73,7 @@
                             placeholder="Enter your full name"
                             required
                         >
+
                     </div>
 
                     <!-- Username -->
@@ -86,6 +87,8 @@
                             placeholder="Choose a username"
                             required
                         >
+
+                        <p id="username-error"  class="error-message"></p>
                     </div>
 
                     <!-- Email -->
@@ -99,6 +102,8 @@
                             placeholder="Enter your email"
                             required
                         >
+
+                        <p id="email-error" class="error-message"></p>
                     </div>
 
                     <!-- Password -->
@@ -112,6 +117,8 @@
                             placeholder="Create a password"
                             required
                         >
+
+                        <p id="password-error" class="error-message"></p>
                     </div>
 
                     <!-- Confirm Password -->
@@ -125,6 +132,8 @@
                             placeholder="Confirm your password"
                             required
                         >
+
+                        <p id="confirm-password-error" class="error-message"></p>
                     </div>
 
                     <!-- Register Button -->
@@ -151,6 +160,8 @@
     <footer class="footer-bottom">
         <p>&copy; 2026 BookShelf. All rights reserved.</p>
     </footer>
+
+    <script src="js/main.js"></script>
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 
     
     --text: #4A3F35;
-    --accent: #8A9A78;
+    --accent: #7c9164;
 }
 
 
@@ -1106,6 +1106,7 @@ img {
         box-shadow 0.2s ease;
 }
 
+
 .form-group input::placeholder {
     color: var(--accent);
     opacity: 0.8;
@@ -1117,6 +1118,11 @@ img {
     box-shadow:
         0 0 0 3px rgba(119, 107, 93, 0.12);
 }
+
+.form-group input.error {
+    border-color: #b85c5c;
+}
+
 /* ==================== LOGIN / REGISTER TEXT ==================== */
 
 .register-text {
@@ -1898,4 +1904,13 @@ img {
         height: 48px;
     }
 }
+
+/*Error Message*/
+
+.error-message {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #b85c5c;
+}
+
 

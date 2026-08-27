@@ -25,21 +25,20 @@ form.addEventListener("submit", function(event){
     let isValid = true;
 
     // Clear previous errors
-
-    usernameError.textContent = "";
-    emailError.textContent = "";
-    passwordError.textContent = "";
-    confirmPasswordError.textContent = "";
-
-    usernameInput.classList.remove("error");
-    emailInput.classList.remove("error");
-    passwordInput.classList.remove("error");
-    confirmPasswordInput.classList.remove("error");
+    
+    clearError(usernameInput, usernameError);
+    clearError(emailInput, emailError);
+    clearError(passwordInput, passwordError);
+    clearError(confirmPasswordInput, confirmPasswordError);
    
     //Username validation
     if(username === ""){
-        usernameError.textContent = "Username is required";
-        usernameInput.classList.add("error");
+        
+        showError(
+            usernameInput,
+            usernameError,
+            "Username is required"
+        );
 
         isValid = false;
     }
@@ -48,14 +47,22 @@ form.addEventListener("submit", function(event){
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if(email === ""){
-        emailError.textContent = "Email is required";
-        emailInput.classList.add("error");
+        
+        showError(
+            emailInput,
+            emailError,
+            "Email is required"
+        );
 
         isValid = false;
 
     } else if(!emailPattern.test(email)){
-        emailError.textContent = "Invalid email";
-        emailInput.classList.add("error");
+        
+        showError(
+            emailInput,
+            emailError,
+            "Invalid email"
+        );
 
         isValid = false;
     }
@@ -63,16 +70,24 @@ form.addEventListener("submit", function(event){
     //password validation
 
     if(password.length < 8){
-        passwordError.textContent = "Password must be minimum 8 characters";
-        passwordInput.classList.add("error");
+        
+        showError(
+            passwordInput,
+            passwordError,
+            "Password must be minimum 8 characters"
+        );
 
         isValid = false;
     }
        
     //confirmed password
     if(password !== confirmPassword){
-        confirmPasswordError.textContent = "Passwords do not match"; 
-        confirmPasswordInput.classList.add("error");
+        
+        showError(
+            confirmPasswordInput,
+            confirmPasswordError,
+            "Passwords do not match"
+        );
 
         isValid = false;
     }

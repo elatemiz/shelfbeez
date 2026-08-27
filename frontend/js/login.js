@@ -16,40 +16,52 @@ form.addEventListener("submit", function(event){
 
     let isValid = true;
 
-    emailError.textContent = "";
-    passwordError.textContent = "";
+    clearError(emailInput, emailError);
+    clearError(passwordInput, passwordError);
 
-    emailInput.classList.remove("error");
-    passwordInput.classList.remove("error");
+    
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if(email === ""){
 
-        emailError.textContent = "Email is required";
-        emailInput.classList.add("error");
+        showError(
+            emailInput,
+            emailError,
+            "Email is required"
+        );
+
         
         isValid = false;
 
     }else if(!emailPattern.test(email)){
 
-        emailError.textContent = "Invalid email";
-        emailInput.classList.add("error");
+        showError(
+            emailInput, 
+            emailError,
+            "Invalid email"
+        );
 
         isValid = false;
     }
 
     if(password === ""){
 
-        passwordError.textContent = "Password is required";
-        passwordInput.classList.add("error");
+        showError(
+            passwordInput,
+            passwordError,
+            "Password is required"
+        );
 
         isValid = false;
 
     }else if(password.length < 8){
 
-        passwordError.textContent = "Password must be minimum 8 characters";
-        passwordInput.classList.add("error");
+        showError(
+            passwordInput,
+            passwordError,
+            "Password must be minimum 8 characters"
+        );
 
         isValid = false;
     }

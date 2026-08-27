@@ -62,7 +62,7 @@
                 </div>
 
 
-                <form class="login-form" id="login-form">
+                <form class="login-form" id="login-form" novalidate>
 
                     <!-- Email -->
                     <div class="form-group">
@@ -74,6 +74,8 @@
                             placeholder="Enter your email"
                             required
                         >
+                        <p id="email-error" class="error-message"></p>
+
                     </div>
 
 
@@ -87,6 +89,8 @@
                             placeholder="Enter your password"
                             required
                         >
+
+                        <p id="password-error" class="error-message"></p>
                     </div>
 
 
@@ -136,7 +140,7 @@
     </footer>
 
 
-    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
 </html>

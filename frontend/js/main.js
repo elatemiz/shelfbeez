@@ -56,5 +56,21 @@ function protectProfilePage() {
   }
 }
 
+function redirectIfLoggedIn() {
+
+     const currentPage = window.location.pathname;
+     const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+     if (
+        isLoggedIn === "true" && (
+            currentPage.includes("login.html") || 
+            currentPage.includes("register.html")
+        )
+     ) {
+        window.location.href = "index.html";
+     }
+}
+
 updateNavbar();
 protectProfilePage();
+redirectIfLoggedIn();

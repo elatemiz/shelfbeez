@@ -42,4 +42,19 @@ function updateNavbar() {
    }
 }
 
+function protectProfilePage() {
+
+    const currentPage = window.location.pathname;
+
+    if (currentPage.includes("profile.html")){
+
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+        if (isLoggedIn !== "true"){
+            window.location.href = "login.html";
+    }
+  }
+}
+
 updateNavbar();
+protectProfilePage();

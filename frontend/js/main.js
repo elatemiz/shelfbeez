@@ -10,14 +10,22 @@ function clearError(input, errorElement){
 }
 
 function updateNavbar() {
-    const navActions = document.querySelector("#nav-actions");
 
+    const navActions = document.querySelector("#nav-actions");
     const isLoggedIn = localStorage.getItem("isLoggedIn");
 
     if(isLoggedIn === "true"){
+
+        const storedUser = localStorage.getItem("user");
+        const user = JSON.parse(storedUser);
+
+        console.log("user:", user);
+        console.log("username:", user.username);
+
         navActions.innerHTML = `
-           <a href="profile.html" class="login-btn">Profile</a>
-           <button class="register-btn" id="logout-btn">Logout</button>
+        <span class="nav-username">${user.username}</span>
+        <a href="profile.html" class="login-btn">Profile</a>
+        <button class="register-btn" id="logout-btn">Logout</button>
     `;
 
     const logoutButton = document.querySelector("#logout-btn");

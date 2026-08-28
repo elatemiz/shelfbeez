@@ -98,7 +98,8 @@ form.addEventListener("submit", function(event){
             name: name,
             username: username,
             email: email,
-            password: password
+            password: password,
+            books: []
         };
 
         localStorage.setItem("user", JSON.stringify(user));

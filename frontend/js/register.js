@@ -17,6 +17,7 @@ form.addEventListener("submit", function(event){
       
     event.preventDefault();
 
+    const name = nameInput.value.trim();
     const username = usernameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
@@ -93,7 +94,16 @@ form.addEventListener("submit", function(event){
     }
 
     if(isValid){
-        console.log("Form is valid");
+        const user = {
+            name: name,
+            username: username,
+            email: email,
+            password: password
+        };
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        console.log("user registered successfully");
     }
 
 });

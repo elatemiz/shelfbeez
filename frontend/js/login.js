@@ -67,8 +67,20 @@ form.addEventListener("submit", function(event){
     }
 
     if(isValid){
-        console.log("Login form is valid");
-    }
+        
+        const storedUser = localStorage.getItem("user");
 
+        const user = JSON.parse(storedUser);
+
+        if(email === user.email && password === user.password){
+
+            console.log("Login successful");
+        } else {
+
+            console.log("Invalid email or password");
+
+        }
+
+    }
 
 });

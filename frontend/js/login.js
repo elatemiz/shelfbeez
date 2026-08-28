@@ -74,6 +74,10 @@ form.addEventListener("submit", function(event){
 
         if(email === user.email && password === user.password){
 
+            localStorage.setItem("isLoggedIn", "true");
+
+            window.location.href = "index.html";
+
             console.log("Login successful");
         } else {
 

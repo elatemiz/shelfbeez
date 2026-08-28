@@ -1340,11 +1340,17 @@ img {
 
 .profile-username {
     margin: 0;
-
     color: var(--primary);
 
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
+}
+
+.profile-handle {
+    margin-top: 4px;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .profile-bio {

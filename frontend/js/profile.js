@@ -1,4 +1,5 @@
 
+
 const profileName = document.querySelector("#profile-name");
 const profileUsername = document.querySelector("#profile-username");
 const booksCount = document.querySelector("#books-count");
@@ -73,6 +74,14 @@ addBookForm.addEventListener("submit", function(event){
 
 });
 
+const bookModal = document.querySelector("#add-book-modal");
+
+const statusInput = document.querySelector("#book-status");
+const ratingInput = document.querySelector("#book-rating");
+
+let editingBookId = null;
+
+
 function renderBooks() {
 
     //get user from localStorage
@@ -96,9 +105,12 @@ function renderBooks() {
         bookElement.textContent = book.title;
 
         const deleteButton = document.createElement("button");
+        const editButton = document.createElement("button");
 
         deleteButton.textContent = "Delete";
-
+        editButton.textContent = "Edit";
+         
+        //Delete
         deleteButton.addEventListener("click", function(){
              
             user.books = user.books.filter(function(bookItem){
@@ -110,7 +122,21 @@ function renderBooks() {
             renderBooks();
         });
 
+        //Edit
+        editButton.addEventListener("click", function(){
+              
+            editingBookId = book.id;
+
+            statusInput.value = book.status;
+            ratingInput.value = book.rating;
+
+            addBookModal.classList.add("active");
+
+            console.log(editingBookId);
+        });
+
         bookElement.appendChild(deleteButton);
+        bookElement.appendChild(editButton);
 
 
         //place the book inside the .books container

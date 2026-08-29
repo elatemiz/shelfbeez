@@ -89,6 +89,84 @@
     </section>
 
 
+
+    <div class="add-book-modal" id="add-book-modal">
+
+        <div class="add-book-modal-content">
+    
+            <h2>Add a Book</h2>
+    
+            <form id="add-book-form">
+    
+                <div class="form-group">
+                    <label for="book-title">Title</label>
+                    <input
+                        type="text"
+                        id="book-title"
+                        placeholder="Enter book title"
+                        required
+                    >
+                </div>
+    
+                <div class="form-group">
+                    <label for="book-author">Author</label>
+                    <input
+                        type="text"
+                        id="book-author"
+                        placeholder="Enter author name"
+                        required
+                    >
+                </div>
+    
+                <div class="form-group">
+                    <label for="book-cover">Cover URL</label>
+                    <input
+                        type="text"
+                        id="book-cover"
+                        placeholder="Enter cover image URL"
+                    >
+                </div>
+    
+                <div class="form-group">
+                    <label for="book-status">Status</label>
+    
+                    <select id="book-status">
+                        <option value="want-to-read">Want to Read</option>
+                        <option value="reading">Reading</option>
+                        <option value="read">Read</option>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="book-rating">Rating</label>
+    
+                    <select id="book-rating">
+                        <option value="0">No rating</option>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐</option>
+                        <option value="3">3 ⭐</option>
+                        <option value="4">4 ⭐</option>
+                        <option value="5">5 ⭐</option>
+                    </select>
+                </div>
+    
+                <div class="modal-actions">
+                    <button type="button" id="cancel-book-btn">
+                        Cancel
+                    </button>
+    
+                    <button type="submit" class="add-book-btn">
+                        Add Book
+                    </button>
+                </div>
+    
+            </form>
+    
+        </div>
+    
+    </div>
+
+
     <!-- ==================================================
          PROFILE BOOKSHELF
     ================================================== -->
@@ -101,7 +179,7 @@
                 <p>A little collection of books I love.</p>
             </div>
 
-            <button class="add-book-btn">
+            <button class="add-book-btn" id="open-add-book-btn">
                 + Add Book
             </button>
         </div>

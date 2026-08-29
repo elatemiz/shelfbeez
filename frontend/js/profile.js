@@ -90,11 +90,27 @@ function renderBooks() {
         
         //create div:
         const bookElement = document.createElement("div");
-        
         //class="book"
         bookElement.classList.add("book");
 
         bookElement.textContent = book.title;
+
+        const deleteButton = document.createElement("button");
+
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", function(){
+             
+            user.books = user.books.filter(function(bookItem){
+                return bookItem.id !== book.id;
+            });
+
+            localStorage.setItem("user", JSON.stringify(user));
+
+            renderBooks();
+        });
+
+        bookElement.appendChild(deleteButton);
 
 
         //place the book inside the .books container

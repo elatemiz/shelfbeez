@@ -1,4 +1,5 @@
 
+let editingBookId = null;
 
 const profileName = document.querySelector("#profile-name");
 const profileUsername = document.querySelector("#profile-username");
@@ -20,11 +21,16 @@ const addBookModal = document.querySelector("#add-book-modal");
 const cancelBookButton = document.querySelector("#cancel-book-btn");
 
 addBookButton.addEventListener("click", function(){
-     addBookModal.style.display = "flex";
+     
+    editingBookId = null;
+
+    submitBookButton.textContent = "Add Book";
+
+    addBookModal.style.display = "flex";
 });
 
 cancelBookButton.addEventListener("click", function(){
-      addBookModal.style.display = "none";
+    addBookModal.style.display = "none";
 
 });
 
@@ -34,6 +40,13 @@ const bookTitleInput = document.querySelector("#book-title");
 const bookAuthorInput = document.querySelector("#book-author");
 const bookStatusInput = document.querySelector("#book-status");
 const bookRatingInput = document.querySelector("#book-rating");
+
+const bookModal = document.querySelector("#add-book-modal");
+
+const statusInput = document.querySelector("#book-status");
+const ratingInput = document.querySelector("#book-rating");
+
+const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
 
 addBookForm.addEventListener("submit", function(event){
      event.preventDefault();
@@ -45,15 +58,6 @@ addBookForm.addEventListener("submit", function(event){
     const status = bookStatusInput.value;
     const rating = bookRatingInput.value;
 
-    //book object:
-
-    const book = {
-        id: Date.now(),
-        title: title,
-        author: author,
-        status: status,
-        rating: Number(rating)
-    };
 
     const storedUser = localStorage.getItem("user");
     const user = JSON.parse(storedUser);
@@ -64,22 +68,51 @@ addBookForm.addEventListener("submit", function(event){
         user.books = [];
     }
 
-    //add book to books array:
+    if (editingBookId === null){
+       
+        //ADD BOOK
 
-    user.books.push(book);
+        const book = {
+            id: Date.now(),
+            title: title,
+            author: author,
+            status: status,
+            rating: Number(rating)
+
+        };
+
+        user.books.push(book);
+
+        console.log("Book added:", book);
+
+    }else {
+         
+        //EDIT BOOK
+
+        const bookToEdit = user.books.find(function(book){
+            return book.id === editingBookId;
+        });
+
+        if (bookToEdit){
+
+            bookToEdit.status = status;
+            bookToEdit.rating = rating;
+
+            console.log("Book updated:", bookToEdit);
+
+            renderBooks();
+        }
+
+        editingBookId = null;
+
+    }
 
     localStorage.setItem("user", JSON.stringify(user));
 
-    console.log("Book added:", book);
+    addBookModal.style.display = "none";
 
+    
 });
-
-const bookModal = document.querySelector("#add-book-modal");
-
-const statusInput = document.querySelector("#book-status");
-const ratingInput = document.querySelector("#book-rating");
-
-let editingBookId = null;
 
 
 function renderBooks() {
@@ -130,7 +163,9 @@ function renderBooks() {
             statusInput.value = book.status;
             ratingInput.value = book.rating;
 
-            addBookModal.classList.add("active");
+            addBookModal.style.display = "flex";
+
+            submitBookButton.textContent = "Save Changes";
 
             console.log(editingBookId);
         });

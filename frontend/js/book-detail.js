@@ -13,6 +13,18 @@ const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookDescription = document.querySelector("#book-description");
 
+//get author name
+
+async function getAuthorName(authorKey){
+
+    const response = await fetch(
+        `https://openlibrary.org${authorKey}.json`
+    );
+
+    const authorData = await response.json();
+
+    return authorData.name;
+}
 
 //get book details
 
@@ -27,6 +39,22 @@ async function getBookDetails() { //async because I am going to use await
     //title
  
     bookTitle.textContent = bookData.title;
+
+    // author
+
+    if (bookData.authors && bookData.authors.length > 0) {
+
+    const authorKey = bookData.authors[0].author.key;
+
+    const authorName = await getAuthorName(authorKey);
+
+    bookAuthor.textContent = authorName;
+
+    } else {
+
+    bookAuthor.textContent = "Unknown Author";
+
+  }
 
     // description
 

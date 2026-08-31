@@ -1,14 +1,20 @@
 
+
 const params = new URLSearchParams(window.location.search); //getting the browser's current URL
 
 const bookId = params.get("id"); //extracting only the ID value
 
 console.log("Book ID:", bookId);
 
+//HTML elements
+
 const bookCover = document.querySelector("#book-cover");
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
-const bookDescription = document.querySelector("book-description");
+const bookDescription = document.querySelector("#book-description");
+
+
+//get book details
 
 async function getBookDetails() { //async because I am going to use await
 
@@ -22,29 +28,46 @@ async function getBookDetails() { //async because I am going to use await
  
     bookTitle.textContent = bookData.title;
 
-    //decription
-    
+    // description
+
     if (bookData.description) {
 
-        bookDescription.textContent = bookData.description.value;
+        let description = bookData.description;
+
+        if (typeof description === "object") {
+
+           description = description.value;
+        }
+
+           const pdfIndex = description.indexOf("[**PDF**]");
+
+             if (pdfIndex !== -1) {
+
+                 description = description.substring(0, pdfIndex);
+            }
+
+       bookDescription.textContent = description.trim();
 
     } else {
 
-        bookDescription.textContent = "No description available";
-    }
+          bookDescription.textContent = 
+          "No description available";
 
+    }
+   
     //cover
 
     if ( bookData.covers && bookData.covers.length > 0) {
+         
+        console.log("Cover ID:", bookData.covers[0]);
 
-        bookCover.src = 
-        `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-L.jpg`;
-
-    } else {
-
-        bookCover.src = "assets/images/book-placeholder.svg";
-    }
-
+        const coverUrl =
+            `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-L.jpg`;
+    
+        console.log("Cover URL:", coverUrl);
+    
+        bookCover.src = coverUrl;
+    } 
 
 
     console.log("Book details:" , bookData);

@@ -2203,3 +2203,175 @@ img {
     }
 
 }
+
+/* ==================================================
+   BOOK DETAIL PAGE
+================================================== */
+
+.book-detail-page {
+    min-height: calc(100vh - 80px);
+    padding: 60px 20px;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+/* ==================================================
+   BOOK DETAIL CARD
+================================================== */
+
+.book-detail {
+    width: 100%;
+    max-width: 1000px;
+    background-color: var(--surface);
+    border-radius: 20px;
+    padding: 50px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 60px;
+    box-shadow: 0 12px 30px rgba(119, 107, 93, 0.18);
+}
+
+
+/* ==================================================
+   BOOK COVER
+================================================== */
+
+.book-detail-cover {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.book-detail-cover img {
+    width: 260px;
+    max-height: 390px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(119, 107, 93, 0.25);
+}
+
+
+/* ==================================================
+   BOOK INFORMATION
+================================================== */
+
+.book-detail-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.book-detail-info h1 {
+    margin: 0 0 10px;
+    color: var(--primary);
+    font-family: "Epilogue";
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+#book-author {
+    margin: 0 0 25px;
+    color: var(--secondary);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#book-description {
+    margin: 0 0 35px;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+
+/* ==================================================
+   USER BOOK INFORMATION
+================================================== */
+
+.book-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.book-status,
+.book-rating {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.book-status label,
+.book-rating label {
+    color: var(--primary);
+    font-family: "Epilogue";
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.book-status select,
+.book-rating select {
+    width: 100%;
+    max-width: 300px;
+    padding: 11px 14px;
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.book-status select:focus,
+.book-rating select:focus {
+    border-color: var(--primary);
+}
+
+
+/* ==================================================
+   SAVE BUTTON
+================================================== */
+
+#save-book-btn {
+    width: fit-content;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 768px) {
+
+    .book-detail-page {
+        padding: 40px 15px;
+    }
+
+    .book-detail {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 30px;
+    }
+
+    .book-detail-cover {
+        justify-content: center;
+    }
+
+    .book-detail-cover img {
+        width: 210px;
+        max-height: 320px;
+    }
+
+    .book-detail-info h1 {
+        font-size: 1.6rem;
+    }
+
+}

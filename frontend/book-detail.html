@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Details</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+<body>
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <header class="navbar">
+
+        <div class="container">
+    
+            <a href="index.html" class="logo">
+                ShelfBeez
+            </a>
+    
+            <nav class="nav-links">
+    
+                <a href="index.html">Home</a>
+    
+                <a href="books.html">Books</a>
+    
+                <a href="profile.html">Community</a>
+    
+            </nav>
+    
+            <div class="nav-actions" id="nav-actions">
+    
+                <a href="login.html" class="login-btn">
+                    Login
+                </a>
+    
+                <a href="register.html" class="register-btn">
+                    Sign Up
+                </a>
+    
+            </div>
+    
+        </div>
+    
+    </header>
+
+
+    <!-- ==================================================
+         BOOK DETAIL
+    ================================================== -->
+
+    <main class="book-detail-page">
+
+        <section class="book-detail">
+
+            <div class="book-detail-cover">
+
+                <img
+                    id="book-cover"
+                    src=""
+                    alt="Book cover"
+                >
+
+            </div>
+
+
+            <div class="book-detail-info">
+
+                <h1 id="book-title"></h1>
+
+                <p id="book-author"></p>
+
+                <p id="book-description"></p>
+
+
+                <!-- USER INFORMATION -->
+
+                <div class="book-user-info">
+
+                    <div class="book-status">
+
+                        <label for="book-status">
+                            My Status
+                        </label>
+
+                        <select id="book-status">
+
+                            <option value="want-to-read">
+                                Want to Read
+                            </option>
+
+                            <option value="reading">
+                                Reading
+                            </option>
+
+                            <option value="read">
+                                Read
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="book-rating">
+
+                        <label for="book-rating">
+                            My Rating
+                        </label>
+
+                        <select id="book-rating">
+
+                            <option value="0">
+                                No rating
+                            </option>
+
+                            <option value="1">
+                                1 ⭐
+                            </option>
+
+                            <option value="2">
+                                2 ⭐
+                            </option>
+
+                            <option value="3">
+                                3 ⭐
+                            </option>
+
+                            <option value="4">
+                                4 ⭐
+                            </option>
+
+                            <option value="5">
+                                5 ⭐
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button id="save-book-btn" class="register-btn">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
+
+    <script src="js/main.js"></script>
+    <script src="js/book-detail.js"></script>
+
+</body>
+
+</html>

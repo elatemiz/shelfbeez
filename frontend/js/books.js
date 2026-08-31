@@ -25,6 +25,12 @@ function renderBooks(bookToRender){
             <p>${book.author}</p>
         
         `;
+        
+        bookCard.addEventListener("click", function(){
+
+            window.location.href = `book-detail.html?id=${encodeURIComponent(book.id)}`;
+
+        });
 
         booksGrid.appendChild(bookCard);
         

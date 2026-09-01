@@ -40,9 +40,16 @@ if (storedUser){
 }
 
 saveBookBtn.addEventListener("click", function(){
-     console.log("Save changes clicked");
-     console.log("selected status:", bookStatus.value);
-     console.log("selected rating:", bookRating.value);
+     
+    const selectedStatus = bookStatus.value;
+    const selectedRating = Number(bookRating.value); //because value attributes within a <select> element are received as strings
+
+    userBook.status = selectedStatus;
+    userBook.rating = selectedRating;
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    console.log("book saved:", userBook);
 });
 
 

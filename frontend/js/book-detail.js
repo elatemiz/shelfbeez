@@ -13,6 +13,9 @@ const bookAuthor = document.querySelector("#book-author");
 const bookDescription = document.querySelector("#book-description");
 const bookStatus = document.querySelector("#book-status");
 const bookRating = document.querySelector("#book-rating");
+const saveBookBtn = document.querySelector("#save-book-btn");
+
+
 
 //get author name
 
@@ -35,6 +38,13 @@ if (storedUser){
 
     user = JSON.parse(storedUser);
 }
+
+saveBookBtn.addEventListener("click", function(){
+     console.log("Save changes clicked");
+     console.log("selected status:", bookStatus.value);
+     console.log("selected rating:", bookRating.value);
+});
+
 
 
 console.log("User books:", user.books);

@@ -1,5 +1,4 @@
 
-
 const params = new URLSearchParams(window.location.search); //getting the browser's current URL
 
 const bookId = params.get("id"); //extracting only the ID value
@@ -12,6 +11,8 @@ const bookCover = document.querySelector("#book-cover");
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookDescription = document.querySelector("#book-description");
+const bookStatus = document.querySelector("#book-status");
+const bookRating = document.querySelector("#book-rating");
 
 //get author name
 
@@ -24,6 +25,29 @@ async function getAuthorName(authorKey){
     const authorData = await response.json();
 
     return authorData.name;
+}
+
+const storedUser = localStorage.getItem("user");
+
+let user = null;
+
+if (storedUser){
+
+    user = JSON.parse(storedUser);
+}
+
+
+console.log("User books:", user.books);
+
+const userBook = user.books.find(function(book){
+      return book.id === bookId;
+});
+
+console.log("user book:", userBook);
+
+if ( userBook) {
+    bookStatus.value = userBook.status;
+    bookRating.value = userBook.rating;
 }
 
 //get book details

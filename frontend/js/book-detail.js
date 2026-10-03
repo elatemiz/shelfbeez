@@ -21,6 +21,9 @@ const saveBookBtn = document.querySelector("#save-book-btn");
 
 async function getAuthorName(authorKey){
 
+    let bookToSave = null;
+    let existingBook = null;
+
     const response = await fetch(
         `https://openlibrary.org${authorKey}.json`
     );
@@ -30,7 +33,7 @@ async function getAuthorName(authorKey){
     return authorData.name;
 }
 
-const storedUser = localStorage.getItem("user");
+const storedUser = localStorage.getItem("user"); //get user from localStorage
 
 let user = null;
 
@@ -39,34 +42,33 @@ if (storedUser){
     user = JSON.parse(storedUser);
 }
 
-saveBookBtn.addEventListener("click", function(){
-     
-    const selectedStatus = bookStatus.value;
-    const selectedRating = Number(bookRating.value); //because value attributes within a <select> element are received as strings
+saveBookBtn.addEventListener("click", function() {
 
-    userBook.status = selectedStatus;
-    userBook.rating = selectedRating;
+    const selectedStatus = bookStatus.value;
+    const selectedRating = Number(bookRating.value);
+
+    if (existingBook) {
+
+        existingBook.status = selectedStatus;
+        existingBook.rating = selectedRating;
+
+        console.log("Existing book updated:", existingBook);
+
+    } else {
+
+        bookToSave.status = selectedStatus;
+        bookToSave.rating = selectedRating;
+
+        user.books.push(bookToSave);
+
+        console.log("New book added:", bookToSave);
+    }
 
     localStorage.setItem("user", JSON.stringify(user));
 
-    console.log("book saved:", userBook);
-});
-
-
-
-console.log("User books:", user.books);
-
-const userBook = user.books.find(function(book){
-      return book.id === bookId;
-});
-
-console.log("user book:", userBook);
-
-if ( userBook) {
-    bookStatus.value = userBook.status;
-    bookRating.value = userBook.rating;
-}
-
+    console.log("User books:", user.books);
+}); 
+   
 //get book details
 
 async function getBookDetails() { //async because I am going to use await
@@ -76,6 +78,29 @@ async function getBookDetails() { //async because I am going to use await
     );
 
     const bookData = await response.json(); //JS object containing the book's details
+
+
+    //a book object created from actual Open Library data:
+    bookToSave = {
+        id: bookData.key,
+        title: bookData.title,
+        cover: bookData.covers ? bookData.covers[0] : null,
+        status: "want-to-read",
+        rating: 0
+    };
+
+    console.log("Book To Save:", bookToSave);
+
+    //check if this book is already exist:
+
+    existingBook = user.books.find(function(book) {
+        return book.id === bookToSave.id;
+    });
+
+    console.log("Existing book:", existingBook);
+
+  
+
 
     //title
  

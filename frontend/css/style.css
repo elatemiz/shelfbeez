@@ -2375,3 +2375,66 @@ img {
     }
 
 }
+
+/* Individual book card */
+.profile-bookshelf .book {
+    position: relative;
+    width: 112px;
+    min-width: 0;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: #F3EEEA;
+    border: 1px solid #D8C8B8;
+    border-radius: 5px;
+    box-shadow: 2px 3px 5px rgba(60, 40, 25, 0.18);
+    box-sizing: border-box;
+}
+
+/* Book cover */
+.profile-bookshelf .book-cover {
+    display: block;
+    width: 94px;
+    height: 132px;
+    object-fit: cover;
+    border-radius: 3px;
+    background: #EBE3D5;
+}
+
+/* Book title */
+.profile-bookshelf .book-title {
+    width: 100%;
+    margin: 0;
+    color: #776B5D;
+    font-family: "Lato", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* Edit and Delete buttons */
+.profile-bookshelf .book-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.profile-bookshelf .book-actions button {
+    padding: 4px 6px;
+    border: 1px solid #B0A695;
+    border-radius: 4px;
+    background: #EBE3D5;
+    color: #776B5D;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.profile-bookshelf .book-actions button:hover {
+    background: #D8C8B8;
+}

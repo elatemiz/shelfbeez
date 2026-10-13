@@ -6,14 +6,17 @@ const profileUsername = document.querySelector("#profile-username");
 const booksCount = document.querySelector("#books-count");
 
 const storedUser = localStorage.getItem("user");
-const user = JSON.parse(storedUser);
+const user = storedUser ? JSON.parse(storedUser) : null;
 
-profileName.textContent = user.name;
-profileUsername.textContent = `@${user.username}`;
+if (user) {
+    profileName.textContent = user.name;
+    profileUsername.textContent = `@${user.username}`;
 
-const books = user.books || [];
-
-booksCount.textContent = books.length;
+    const books = user.books || [];
+    booksCount.textContent = books.length;
+} else {
+    console.log("No logged-in user found.");
+}
 
 
 const addBookButton = document.querySelector("#open-add-book-btn");
@@ -96,7 +99,7 @@ addBookForm.addEventListener("submit", function(event){
         if (bookToEdit){
 
             bookToEdit.status = status;
-            bookToEdit.rating = rating;
+            bookToEdit.rating = Number(rating);
 
             console.log("Book updated:", bookToEdit);
 
@@ -111,75 +114,120 @@ addBookForm.addEventListener("submit", function(event){
 
     addBookModal.style.display = "none";
 
+    renderBooks();
+
+    booksCount.textContent = user.books.length;
+
     
 });
 
-
 function renderBooks() {
-
-    //get user from localStorage
-    
     const storedUser = localStorage.getItem("user");
-    const user = JSON.parse(storedUser);
+    const user = storedUser ? JSON.parse(storedUser) : null;
 
-    const booksContainer = document.querySelector(".books");
+    const bookshelves = document.querySelectorAll(".books");
 
-    booksContainer.innerHTML = "";
+    // Clear all shelf containers first.
+    bookshelves.forEach(function(shelf) {
+        shelf.innerHTML = "";
+    });
 
-    //executes the code for each book in the array:
+    if (!user || !user.books) {
+        return;
+    }
 
-    user.books.forEach(function(book) {
+    // Place each book into a shelf container.
+    user.books.forEach(function(book, index) {
         
-        //create div:
+        console.log("Book title:", book.title);
+        console.log("Cover value:", book.cover);
+        console.log("Cover type:", typeof book.cover);
+
         const bookElement = document.createElement("div");
-        //class="book"
         bookElement.classList.add("book");
+       
+        // Book cover
+        const coverImage = document.createElement("img");
+        coverImage.classList.add("book-cover");
+        coverImage.alt = book.title;
+        
+        // Open Library cover ID, URL, or fallback image
 
-        bookElement.textContent = book.title;
+        if (book.cover) {
+            coverImage.src = typeof book.cover === "number"
+                ? `https://covers.openlibrary.org/b/id/${book.cover}-M.jpg`
+                : book.cover;
+        } else {
+            coverImage.src = "assets/images/bookcover_placeholder.jpg";
+        }
 
+        coverImage.onerror = function() {
+            console.log("Cover failed to load:", book.title);
+            console.log("Attempted URL:", coverImage.src);
+        
+            coverImage.onerror = null;
+            coverImage.src = "assets/images/bookcover_placeholder.jpg";
+        };
+      
+     
+        // Book title
+        const titleElement = document.createElement("p");
+        titleElement.classList.add("book-title");
+        titleElement.textContent = book.title;
+        
+        // Action buttons
+        const actions = document.createElement("div");
+        actions.classList.add("book-actions");
+        
         const deleteButton = document.createElement("button");
-        const editButton = document.createElement("button");
-
         deleteButton.textContent = "Delete";
+        
+        const editButton = document.createElement("button");
         editButton.textContent = "Edit";
-         
-        //Delete
-        deleteButton.addEventListener("click", function(){
-             
-            user.books = user.books.filter(function(bookItem){
+        
+        actions.appendChild(editButton);
+        actions.appendChild(deleteButton);
+        
+        bookElement.appendChild(coverImage);
+        bookElement.appendChild(titleElement);
+        bookElement.appendChild(actions);
+
+        
+        deleteButton.addEventListener("click", function() {
+            user.books = user.books.filter(function(bookItem) {
                 return bookItem.id !== book.id;
             });
 
             localStorage.setItem("user", JSON.stringify(user));
-
             renderBooks();
+
+            const updatedBooks = user.books || [];
+            booksCount.textContent = updatedBooks.length;
         });
 
-        //Edit
-        editButton.addEventListener("click", function(){
-              
+        editButton.addEventListener("click", function() {
             editingBookId = book.id;
 
             statusInput.value = book.status;
             ratingInput.value = book.rating;
 
             addBookModal.style.display = "flex";
-
             submitBookButton.textContent = "Save Changes";
-
-            console.log(editingBookId);
         });
 
-        bookElement.appendChild(deleteButton);
-        bookElement.appendChild(editButton);
-
-
-        //place the book inside the .books container
-        booksContainer.appendChild(bookElement);
-    });      
+    
+        // Choose a shelf based on the book's index.
+        const shelfIndex = index % bookshelves.length;
+        bookshelves[shelfIndex].appendChild(bookElement);
+    });
 }
 
+
 renderBooks();
+
+
+
+
          
 
 

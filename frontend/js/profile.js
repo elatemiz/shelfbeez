@@ -22,12 +22,19 @@ if (user) {
 const addBookButton = document.querySelector("#open-add-book-btn");
 const addBookModal = document.querySelector("#add-book-modal");
 const cancelBookButton = document.querySelector("#cancel-book-btn");
+const modalTitle = document.querySelector(
+    "#add-book-modal h2"
+);
 
 addBookButton.addEventListener("click", function(){
      
     editingBookId = null;
 
+    modalTitle.textContent = "Add a Book";
     submitBookButton.textContent = "Add Book";
+
+    // Show the book search section in Add Book mode.
+    bookSelectionSection.style.display = "block";
 
     addBookModal.style.display = "flex";
 });
@@ -54,9 +61,12 @@ const bookStatusInput = document.querySelector("#book-status");
 const bookRatingInput = document.querySelector("#book-rating");
 
 const bookModal = document.querySelector("#add-book-modal");
+const bookSelectionSection = document.querySelector("#book-selection-section");
 
 const statusInput = document.querySelector("#book-status");
 const ratingInput = document.querySelector("#book-rating");
+
+
 
 const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
 
@@ -102,7 +112,7 @@ async function searchBooks(){
         //Display the first 8 results on the screen
         data.docs.forEach(function(book) {
             const result = document.createElement("div");
-            result.classList.add("book-search-results");
+            result.classList.add("book-search-result");
 
             const coverImage = document.createElement("img");
 
@@ -127,6 +137,39 @@ async function searchBooks(){
             result.appendChild(title);
             result.appendChild(author);
 
+            result.addEventListener("click", function() {
+                selectedBook = { //temporarily stores the information of the clicked book
+                    id: book.key,
+                    title: book.title,
+                    author: book.author_name
+                        ? book.author_name[0]
+                        : "Unknown Author",
+                    cover: book.cover_i || null
+                };
+            
+                selectedBookInfo.innerHTML = "";
+            
+                const selectedCover = document.createElement("img");
+                selectedCover.src = selectedBook.cover
+                    ? `https://covers.openlibrary.org/b/id/${selectedBook.cover}-M.jpg`
+                    : "assets/images/bookcover_placeholder.jpg";
+                selectedCover.alt = selectedBook.title;
+            
+                const selectedTitle = document.createElement("p");
+                selectedTitle.textContent = selectedBook.title;
+            
+                const selectedAuthor = document.createElement("p");
+                selectedAuthor.textContent = selectedBook.author;
+            
+                selectedBookInfo.appendChild(selectedCover);
+                selectedBookInfo.appendChild(selectedTitle);
+                selectedBookInfo.appendChild(selectedAuthor);
+            
+                selectedBookContainer.hidden = false;
+            
+                bookSearchResults.innerHTML = "";
+            });
+
             bookSearchResults.appendChild(result);
         });
 
@@ -140,69 +183,77 @@ async function searchBooks(){
 searchBooksButton.addEventListener("click", searchBooks);
 
 
-           
 
+addBookForm.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-
-addBookForm.addEventListener("submit", function(event){
-     event.preventDefault();
-
-    //get input values:
-
-    const title = bookTitleInput.value.trim();
-    const author = bookAuthorInput.value.trim();
     const status = bookStatusInput.value;
-    const rating = bookRatingInput.value;
-
+    const rating = Number(bookRatingInput.value);
 
     const storedUser = localStorage.getItem("user");
+
+    if (!storedUser) {
+        console.error("No logged-in user found.");
+        return;
+    }
+
     const user = JSON.parse(storedUser);
 
-    //check if user has books[] property:
-    
-    if (!user.books){
+    if (!user.books) {
         user.books = [];
     }
 
-    if (editingBookId === null){
-       
-        //ADD BOOK
+    if (editingBookId === null) {
+
+        // ADD BOOK: A book must be selected first.
+        if (!selectedBook) {
+            bookSearchResults.textContent =
+                "Please search for and select a book first.";
+            return;
+        }
+
+        // Prevent adding the same Open Library work twice.
+        const alreadyExists = user.books.some(function(book) {
+            return book.id === selectedBook.id;
+        });
+
+        if (alreadyExists) {
+            bookSearchResults.textContent =
+                "This book is already in your library.";
+            return;
+        }
 
         const book = {
-            id: Date.now(),
-            title: title,
-            author: author,
+            id: selectedBook.id, //We preserve the Open Library ID of the book. This allows us to check if the same work is attempted to be added a second time.
+            title: selectedBook.title,
+            author: selectedBook.author,
+            cover: selectedBook.cover, //saving the cover ID. renderBooks() can generate the actual cover image using this ID.
             status: status,
-            rating: Number(rating)
-
+            rating: rating
         };
 
         user.books.push(book);
 
         console.log("Book added:", book);
 
-    }else {
-         
-        //EDIT BOOK
+    } else {
 
-        const bookToEdit = user.books.find(function(book){
+        // EDIT BOOK: Only update the user's status and rating.
+        const bookToEdit = user.books.find(function(book) {
             return book.id === editingBookId;
         });
 
-        if (bookToEdit){
-
+        if (bookToEdit) {
             bookToEdit.status = status;
-            bookToEdit.rating = Number(rating);
+            bookToEdit.rating = rating;
 
             console.log("Book updated:", bookToEdit);
-
-            renderBooks();
         }
 
         editingBookId = null;
-
     }
 
+    // Save the updated library.
     localStorage.setItem("user", JSON.stringify(user));
 
     addBookModal.style.display = "none";
@@ -211,8 +262,16 @@ addBookForm.addEventListener("submit", function(event){
 
     booksCount.textContent = user.books.length;
 
-    
+    // Reset the selection for the next addition.
+    selectedBook = null;
+    bookSearchInput.value = "";
+    bookSearchResults.innerHTML = "";
+    selectedBookInfo.innerHTML = "";
+    selectedBookContainer.hidden = true;
+
+    submitBookButton.textContent = "Add Book";
 });
+
 
 function renderBooks() {
     const storedUser = localStorage.getItem("user");
@@ -301,11 +360,19 @@ function renderBooks() {
         editButton.addEventListener("click", function() {
             editingBookId = book.id;
 
+            modalTitle.textContent = "Edit Book";
+
+            // Hide book search while editing.
+            bookSelectionSection.style.display = "none";
+
+            // Load the current book's values.
             statusInput.value = book.status;
             ratingInput.value = book.rating;
 
+            // Open the modal in edit mode.
             addBookModal.style.display = "flex";
             submitBookButton.textContent = "Save Changes";
+
         });
 
     

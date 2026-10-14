@@ -1460,6 +1460,12 @@ img {
 
 .add-book-modal {
     display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .add-book-btn {
@@ -1595,7 +1601,8 @@ img {
 
     box-sizing: border-box;
 
-    overflow: hidden;
+   /* overflow: hidden;*/
+   overflow: visible;
 }
 
 
@@ -1663,17 +1670,11 @@ img {
 
 .profile-bookshelf .book {
     flex-shrink: 0;
-
-    width: 38px;
-    height: 80px;
-
-    border-radius: 2px 2px 0 0;
-
-    box-shadow:
-        2px 0 3px rgba(0, 0, 0, 0.15);
-
-    transition:
-        transform 0.25s ease;
+    width: 112px;
+    min-width: 112px;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.25s ease;
 }
 
 .profile-bookshelf .book:hover {
@@ -2376,48 +2377,16 @@ img {
 
 }
 
-/* Individual book card */
-.profile-bookshelf .book {
+.profile-bookshelf .books {
     position: relative;
-    width: 112px;
-    min-width: 0;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    background: #F3EEEA;
-    border: 1px solid #D8C8B8;
-    border-radius: 5px;
-    box-shadow: 2px 3px 5px rgba(60, 40, 25, 0.18);
-    box-sizing: border-box;
-}
-
-/* Book cover */
-.profile-bookshelf .book-cover {
-    display: block;
-    width: 94px;
-    height: 132px;
-    object-fit: cover;
-    border-radius: 3px;
-    background: #EBE3D5;
-}
-
-/* Book title */
-.profile-bookshelf .book-title {
-    width: 100%;
-    margin: 0;
-    color: #776B5D;
-    font-family: "Lato", sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.4;
-    text-align: center;
-    overflow-wrap: anywhere;
+    z-index: 2;
+    overflow: visible;
 }
 
 /* Edit and Delete buttons */
 .profile-bookshelf .book-actions {
+    position: relative;
+    z-index: 4;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -2426,15 +2395,19 @@ img {
 }
 
 .profile-bookshelf .book-actions button {
-    padding: 4px 6px;
-    border: 1px solid #B0A695;
-    border-radius: 4px;
-    background: #EBE3D5;
-    color: #776B5D;
-    font-size: 10px;
+    position: relative;
+    z-index: 5;
     cursor: pointer;
 }
 
-.profile-bookshelf .book-actions button:hover {
-    background: #D8C8B8;
+.book-search-result {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #D8C8B8;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.book-search-result:hover {
+    background-color: #EBE3D5;
 }

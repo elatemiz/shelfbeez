@@ -39,8 +39,17 @@ cancelBookButton.addEventListener("click", function(){
 
 const addBookForm = document.querySelector("#add-book-form");
 
-const bookTitleInput = document.querySelector("#book-title");
-const bookAuthorInput = document.querySelector("#book-author");
+const bookSearchInput = document.querySelector("#book-search-input"); //The text the user enters to search for books
+const bookSearchResults = document.querySelector("#book-search-results"); //where books from the API will be displayed
+
+const searchBooksButton = document.querySelector("#search-books-btn");
+
+const selectedBookContainer = document.querySelector("#selected-book"); //where information about the selected book will be displayed
+
+const selectedBookInfo = document.querySelector("#selected-book-info"); 
+
+let selectedBook = null; ////Temporarily stores the information of the book selected by the user
+
 const bookStatusInput = document.querySelector("#book-status");
 const bookRatingInput = document.querySelector("#book-rating");
 
@@ -50,6 +59,90 @@ const statusInput = document.querySelector("#book-status");
 const ratingInput = document.querySelector("#book-rating");
 
 const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
+
+//note: async and await allow us to wait for the API request to complete.
+
+async function searchBooks(){
+    const query = bookSearchInput.value.trim();
+
+    //Prevent empty searches
+    if(query === "") {
+        bookSearchResults.textContent = "Please enter a book title or author.";
+        return;
+    }
+
+    bookSearchResults.textContent = "Searching...";
+
+    //notes: fetch() sends a request to the Open Library API.
+    //encodeURIComponent(query) makes the search text URL-safe.
+   
+
+    try {
+        const response = await fetch( 
+            `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=8`
+        );
+
+        if(!response.ok) {
+            throw new Error("Failed to fetch books.");
+        }
+
+        const data = await response.json(); ////response.json() converts the API response into a JavaScript object.
+
+        console.log("Open Library response:", data);
+        console.log("HTTP status:", response.status);
+        
+        //Clear search results
+        bookSearchResults.innerHTML = "";
+
+        if (data.docs.length === 0) {
+            bookSearchResults.textContent = "No books found.";
+            return;
+        }
+        
+        //Display the first 8 results on the screen
+        data.docs.forEach(function(book) {
+            const result = document.createElement("div");
+            result.classList.add("book-search-results");
+
+            const coverImage = document.createElement("img");
+
+            coverImage.alt = book.title;
+
+            if ( book.cover_i) { //book cover id
+                coverImage.src = 
+                `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`;
+            } else {
+                coverImage.src = "assets/images/bookcover_placeholder.jpg";
+            }
+        
+            const title = document.createElement("p");
+            title.textContent = book.title;
+
+            const author = document.createElement("p");
+            author.textContent = book.author_name
+            ? book.author_name[0]
+            : "Unknown Author";
+
+            result.appendChild(coverImage);
+            result.appendChild(title);
+            result.appendChild(author);
+
+            bookSearchResults.appendChild(result);
+        });
+
+    } catch (error) {
+        console.error("Book search error:", error);
+        bookSearchResults.textContent =
+            "Something went wrong. Please try again.";
+    }
+}
+
+searchBooksButton.addEventListener("click", searchBooks);
+
+
+           
+
+
 
 addBookForm.addEventListener("submit", function(event){
      event.preventDefault();

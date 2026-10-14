@@ -90,40 +90,40 @@
 
     </section>
 
-
-
     <div class="add-book-modal" id="add-book-modal">
-
         <div class="add-book-modal-content">
     
             <h2>Add a Book</h2>
     
             <form id="add-book-form">
     
+                <!-- Book search -->
                 <div class="form-group">
-                    <label for="book-title">Title</label>
+                    <label for="book-search-input">Search for a book</label>
                     <input
                         type="text"
-                        id="book-title"
-                        placeholder="Enter book title"
-                        required
-                    >
-                </div>
-    
-                <div class="form-group">
-                    <label for="book-author">Author</label>
-                    <input
-                        type="text"
-                        id="book-author"
-                        placeholder="Enter author name"
-                        required
-                    >
-                </div>
+                        id="book-search-input"
+                        placeholder="Enter book title or author"
+                        autocomplete="off"
+                    />
 
+                    <button type="button" id="search-books-btn"> 
+                       Search
+                    </button>
+                </div>
     
+                <!-- API search results will appear here -->
+                <div id="book-search-results"></div>
+    
+                <!-- Selected book information -->
+                <div id="selected-book" class="selected-book" hidden>
+                    <p>Selected book:</p>
+                    <div id="selected-book-info"></div>
+                </div>
+    
+                <!-- Reading status -->
                 <div class="form-group">
                     <label for="book-status">Status</label>
-    
                     <select id="book-status">
                         <option value="want-to-read">Want to Read</option>
                         <option value="reading">Reading</option>
@@ -131,16 +131,17 @@
                     </select>
                 </div>
     
+                <!-- Personal rating -->
                 <div class="form-group">
                     <label for="book-rating">Rating</label>
-    
                     <select id="book-rating">
                         <option value="0">No rating</option>
-                        <option value="1">1 ⭐</option>
-                        <option value="2">2 ⭐</option>
-                        <option value="3">3 ⭐</option>
-                        <option value="4">4 ⭐</option>
-                        <option value="5">5 ⭐</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                        
                     </select>
                 </div>
     
@@ -155,10 +156,12 @@
                 </div>
     
             </form>
-    
         </div>
-    
     </div>
+
+
+
+   
 
 
     <!-- ==================================================

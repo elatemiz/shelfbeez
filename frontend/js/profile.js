@@ -27,16 +27,9 @@ const modalTitle = document.querySelector(
 );
 
 addBookButton.addEventListener("click", function(){
+
+    window.location.href = "books.html";
      
-    editingBookId = null;
-
-    modalTitle.textContent = "Add a Book";
-    submitBookButton.textContent = "Add Book";
-
-    // Show the book search section in Add Book mode.
-    bookSelectionSection.style.display = "block";
-
-    addBookModal.style.display = "flex";
 });
 
 cancelBookButton.addEventListener("click", function(){
@@ -46,27 +39,11 @@ cancelBookButton.addEventListener("click", function(){
 
 const addBookForm = document.querySelector("#add-book-form");
 
-const bookSearchInput = document.querySelector("#book-search-input"); //The text the user enters to search for books
-const bookSearchResults = document.querySelector("#book-search-results"); //where books from the API will be displayed
-
-const searchBooksButton = document.querySelector("#search-books-btn");
-
-const selectedBookContainer = document.querySelector("#selected-book"); //where information about the selected book will be displayed
-
-const selectedBookInfo = document.querySelector("#selected-book-info"); 
-
-let selectedBook = null; //Temporarily stores the information of the book selected by the user
-
 const editBookInfo = document.querySelector("#edit-book-info");
 const editBookCover = document.querySelector("#edit-book-cover");
 const editBookTitle = document.querySelector("#edit-book-title");
 const editBookAuthor = document.querySelector("#edit-book-author");
 
-const bookStatusInput = document.querySelector("#book-status");
-const bookRatingInput = document.querySelector("#book-rating");
-
-const bookModal = document.querySelector("#add-book-modal");
-const bookSelectionSection = document.querySelector("#book-selection-section");
 
 const statusInput = document.querySelector("#book-status");
 const ratingInput = document.querySelector("#book-rating");
@@ -75,125 +52,12 @@ const ratingInput = document.querySelector("#book-rating");
 
 const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
 
-//note: async and await allow us to wait for the API request to complete.
-
-async function searchBooks(){
-    const query = bookSearchInput.value.trim();
-
-    //Prevent empty searches
-    if(query === "") {
-        bookSearchResults.textContent = "Please enter a book title or author.";
-        return;
-    }
-
-    bookSearchResults.textContent = "Searching...";
-
-    //notes: fetch() sends a request to the Open Library API.
-    //encodeURIComponent(query) makes the search text URL-safe.
-   
-
-    try {
-        const response = await fetch( 
-            `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=8`
-        );
-
-        if(!response.ok) {
-            throw new Error("Failed to fetch books.");
-        }
-
-        const data = await response.json(); ////response.json() converts the API response into a JavaScript object.
-
-        console.log("Open Library response:", data);
-        console.log("HTTP status:", response.status);
-        
-        //Clear search results
-        bookSearchResults.innerHTML = "";
-
-        if (data.docs.length === 0) {
-            bookSearchResults.textContent = "No books found.";
-            return;
-        }
-        
-        //Display the first 8 results on the screen
-        data.docs.forEach(function(book) {
-            const result = document.createElement("div");
-            result.classList.add("book-search-result");
-
-            const coverImage = document.createElement("img");
-
-            coverImage.alt = book.title;
-
-            if ( book.cover_i) { //book cover id
-                coverImage.src = 
-                `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg`;
-            } else {
-                coverImage.src = "assets/images/bookcover_placeholder.jpg";
-            }
-        
-            const title = document.createElement("p");
-            title.textContent = book.title;
-
-            const author = document.createElement("p");
-            author.textContent = book.author_name
-            ? book.author_name[0]
-            : "Unknown Author";
-
-            result.appendChild(coverImage);
-            result.appendChild(title);
-            result.appendChild(author);
-
-            result.addEventListener("click", function() {
-                selectedBook = { //temporarily stores the information of the clicked book
-                    id: book.key,
-                    title: book.title,
-                    author: book.author_name
-                        ? book.author_name[0]
-                        : "Unknown Author",
-                    cover: book.cover_i || null
-                };
-            
-                selectedBookInfo.innerHTML = "";
-            
-                const selectedCover = document.createElement("img");
-                selectedCover.src = selectedBook.cover
-                    ? `https://covers.openlibrary.org/b/id/${selectedBook.cover}-M.jpg`
-                    : "assets/images/bookcover_placeholder.jpg";
-                selectedCover.alt = selectedBook.title;
-            
-                const selectedTitle = document.createElement("p");
-                selectedTitle.textContent = selectedBook.title;
-            
-                const selectedAuthor = document.createElement("p");
-                selectedAuthor.textContent = selectedBook.author;
-            
-                selectedBookInfo.appendChild(selectedCover);
-                selectedBookInfo.appendChild(selectedTitle);
-                selectedBookInfo.appendChild(selectedAuthor);
-            
-                selectedBookContainer.hidden = false;
-            
-                bookSearchResults.innerHTML = "";
-            });
-
-            bookSearchResults.appendChild(result);
-        });
-
-    } catch (error) {
-        console.error("Book search error:", error);
-        bookSearchResults.textContent =
-            "Something went wrong. Please try again.";
-    }
-}
-
-searchBooksButton.addEventListener("click", searchBooks);
-
-
 
 addBookForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const status = bookStatusInput.value;
-    const rating = Number(bookRatingInput.value);
+    const status = statusInput.value;
+    const rating = Number(ratingInput.value);
 
     const storedUser = localStorage.getItem("user");
 
@@ -204,77 +68,35 @@ addBookForm.addEventListener("submit", function(event) {
 
     const user = JSON.parse(storedUser);
 
-    if (!user.books) {
-        user.books = [];
+    const bookToEdit = user.books?.find(function(book) {
+        return book.id === editingBookId;
+    });
+
+    if (!bookToEdit) {
+        console.error("Book to edit was not found.");
+        return;
     }
 
-    if (editingBookId === null) {
-
-        // ADD BOOK: A book must be selected first.
-        if (!selectedBook) {
-            bookSearchResults.textContent =
-                "Please search for and select a book first.";
-            return;
-        }
-
-        // Prevent adding the same Open Library work twice.
-        const alreadyExists = user.books.some(function(book) {
-            return book.id === selectedBook.id;
-        });
-
-        if (alreadyExists) {
-            bookSearchResults.textContent =
-                "This book is already in your library.";
-            return;
-        }
-
-        const book = {
-            id: selectedBook.id, //We preserve the Open Library ID of the book. This allows us to check if the same work is attempted to be added a second time.
-            title: selectedBook.title,
-            author: selectedBook.author,
-            cover: selectedBook.cover, //saving the cover ID. renderBooks() can generate the actual cover image using this ID.
-            status: status,
-            rating: rating
-        };
-
-        user.books.push(book);
-
-        console.log("Book added:", book);
-
-    } else {
-
-        // EDIT BOOK: Only update the user's status and rating.
-        const bookToEdit = user.books.find(function(book) {
-            return book.id === editingBookId;
-        });
-
-        if (bookToEdit) {
-            bookToEdit.status = status;
-            bookToEdit.rating = rating;
-
-            console.log("Book updated:", bookToEdit);
-        }
-
-        editingBookId = null;
-    }
+    // Update the existing book.
+    bookToEdit.status = status;
+    bookToEdit.rating = rating;
 
     // Save the updated library.
     localStorage.setItem("user", JSON.stringify(user));
 
+    // Close the modal.
     addBookModal.style.display = "none";
 
+    // Refresh the bookshelf and book count.
     renderBooks();
-
     booksCount.textContent = user.books.length;
 
-    // Reset the selection for the next addition.
-    selectedBook = null;
-    bookSearchInput.value = "";
-    bookSearchResults.innerHTML = "";
-    selectedBookInfo.innerHTML = "";
-    selectedBookContainer.hidden = true;
+    // Reset the editing state.
+    editingBookId = null;
+    editBookInfo.hidden = true;
+    submitBookButton.textContent = "Save Changes";
 
-    submitBookButton.textContent = "Add Book";
+    console.log("Book updated:", bookToEdit);
 });
 
 
@@ -366,9 +188,6 @@ function renderBooks() {
             editingBookId = book.id;
 
             modalTitle.textContent = "Edit Book";
-
-            // Hide book search while editing.
-            bookSelectionSection.style.display = "none";
 
             //show the selected book's information
             editBookInfo.hidden = false;

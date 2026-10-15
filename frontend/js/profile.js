@@ -55,7 +55,12 @@ const selectedBookContainer = document.querySelector("#selected-book"); //where 
 
 const selectedBookInfo = document.querySelector("#selected-book-info"); 
 
-let selectedBook = null; ////Temporarily stores the information of the book selected by the user
+let selectedBook = null; //Temporarily stores the information of the book selected by the user
+
+const editBookInfo = document.querySelector("#edit-book-info");
+const editBookCover = document.querySelector("#edit-book-cover");
+const editBookTitle = document.querySelector("#edit-book-title");
+const editBookAuthor = document.querySelector("#edit-book-author");
 
 const bookStatusInput = document.querySelector("#book-status");
 const bookRatingInput = document.querySelector("#book-rating");
@@ -364,6 +369,26 @@ function renderBooks() {
 
             // Hide book search while editing.
             bookSelectionSection.style.display = "none";
+
+            //show the selected book's information
+            editBookInfo.hidden = false;
+
+            editBookTitle.textContent = book.title;
+            editBookAuthor.textContent = book.author || "Unknown Author";
+
+            //display the book cover:
+            if(book.cover){
+                editBookCover.src = typeof book.cover === "number"
+                ? `https://covers.openlibrary.org/b/id/${book.cover}-M.jpg`
+                : book.cover;
+            } else {
+                editBookCover.src = "assets/images/bookcover_placeholder.jpg";
+            }
+
+            editBookCover.onerror = function() {
+                editBookCover.onerror = null;
+                editBookCover.src = "assets/images/bookcover_placeholder.jpg";
+            };
 
             // Load the current book's values.
             statusInput.value = book.status;

@@ -23,6 +23,7 @@ const addBookButton = document.querySelector("#open-add-book-btn");
 const addBookModal = document.querySelector("#add-book-modal");
 const cancelBookButton = document.querySelector("#cancel-book-btn");
 const deleteBookButton = document.querySelector("#delete-book-btn");
+const closeBookModalButton = document.querySelector("#close-book-modal");
 const modalTitle = document.querySelector(
     "#add-book-modal h2"
 );
@@ -33,9 +34,11 @@ addBookButton.addEventListener("click", function(){
      
 });
 
-cancelBookButton.addEventListener("click", function(){
+closeBookModalButton.addEventListener("click", function(){
     addBookModal.style.display = "none";
-
+    editingBookId = null;
+    editBookInfo.hidden = true;
+    submitBookButton.textContent = "Save Changes";
 });
 
 deleteBookButton.addEventListener("click", function(){

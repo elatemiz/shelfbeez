@@ -1496,6 +1496,29 @@ img {
 
 .add-book-modal-content {
     position: relative;
+
+    width: min(90%, 380px);
+    max-height: 85vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    padding: 32px 30px 26px;
+
+    background-color: #EBE3D5;
+    color: #776B5D;
+
+    border: 1px solid #B0A695;
+    border-radius: 6px;
+
+    box-shadow: 0 15px 40px rgba(45, 32, 20, 0.25);
+}
+
+.add-book-modal-content h2 {
+    margin: 0 0 22px;
+    color: #5F4933;
+    font-family: "Epilogue", Georgia, serif;
+    font-size: 25px;
+    text-align: center;
 }
 
 .close-book-modal {
@@ -2354,19 +2377,6 @@ img {
 
 
 /* ==================================================
-   SAVE BUTTON
-================================================== */
-
-#save-book-btn {
-    width: fit-content;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-
-/* ==================================================
    RESPONSIVE
 ================================================== */
 
@@ -2403,31 +2413,3 @@ img {
     overflow: visible;
 }
 
-/* Edit and Delete buttons */
-.profile-bookshelf .book-actions {
-    position: relative;
-    z-index: 4;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
-    width: 100%;
-}
-
-.profile-bookshelf .book-actions button {
-    position: relative;
-    z-index: 5;
-    cursor: pointer;
-}
-
-.book-search-result {
-    cursor: pointer;
-    padding: 10px;
-    border: 1px solid #D8C8B8;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-
-.book-search-result:hover {
-    background-color: #EBE3D5;
-}

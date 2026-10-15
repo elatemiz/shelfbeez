@@ -192,7 +192,7 @@ function renderBooks() {
         bookElement.addEventListener("click", function() {
             editingBookId = book.id;
 
-            modalTitle.textContent = "Edit Book";
+            modalTitle.textContent = "Book Detail";
 
             //show the selected book's information
             editBookInfo.hidden = false;

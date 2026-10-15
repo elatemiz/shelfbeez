@@ -22,6 +22,7 @@ if (user) {
 const addBookButton = document.querySelector("#open-add-book-btn");
 const addBookModal = document.querySelector("#add-book-modal");
 const cancelBookButton = document.querySelector("#cancel-book-btn");
+const deleteBookButton = document.querySelector("#delete-book-btn");
 const modalTitle = document.querySelector(
     "#add-book-modal h2"
 );
@@ -35,6 +36,33 @@ addBookButton.addEventListener("click", function(){
 cancelBookButton.addEventListener("click", function(){
     addBookModal.style.display = "none";
 
+});
+
+deleteBookButton.addEventListener("click", function(){
+    const storedUser = localStorage.getItem("user");
+
+    if(!storedUser || !editingBookId) { ////editingBookId: finds the book that is open in the modal.
+        return;
+    }
+
+    const user = JSON.parse(storedUser);
+
+
+    //only removes that book from the user.books list
+    user.books = user.books.filter(function(book) { 
+        return book.id !== editingBookId; 
+    });
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    addBookModal.style.display = "none";
+
+    editingBookId = null;
+
+    renderBooks();
+    booksCount.textContent = user.books.length; //updating the number of books
+
+    console.log("Book deleted successfully.");
 });
 
 const addBookForm = document.querySelector("#add-book-form");
@@ -154,37 +182,11 @@ function renderBooks() {
         titleElement.classList.add("book-title");
         titleElement.textContent = book.title;
         
-        // Action buttons
-        const actions = document.createElement("div");
-        actions.classList.add("book-actions");
-        
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        
-        actions.appendChild(editButton);
-        actions.appendChild(deleteButton);
         
         bookElement.appendChild(coverImage);
         bookElement.appendChild(titleElement);
-        bookElement.appendChild(actions);
 
-        
-        deleteButton.addEventListener("click", function() {
-            user.books = user.books.filter(function(bookItem) {
-                return bookItem.id !== book.id;
-            });
-
-            localStorage.setItem("user", JSON.stringify(user));
-            renderBooks();
-
-            const updatedBooks = user.books || [];
-            booksCount.textContent = updatedBooks.length;
-        });
-
-        editButton.addEventListener("click", function() {
+        bookElement.addEventListener("click", function() {
             editingBookId = book.id;
 
             modalTitle.textContent = "Edit Book";

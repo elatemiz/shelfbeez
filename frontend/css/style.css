@@ -1575,6 +1575,7 @@ img {
     position: relative;
 
     flex: 1;
+    min-width: 0;
 
     height: 600px;
 
@@ -1629,14 +1630,16 @@ img {
 
 .profile-bookshelf .shelf-row {
     position: relative;
+    z-index: 1;
 
     width: 100%;
+    min-width: 0;
     height: 130px;
 
     display: flex;
     align-items: flex-end;
 
-    padding: 10px 12px 12px;
+    padding: 10px 11px 12px;
 
     background-color: #80694b;
 
@@ -1665,25 +1668,32 @@ img {
     background-color: rgba(45, 32, 20, 0.12);
 }
 
+.profile-bookshelf .shelf-row:hover {
+    z-index: 10;
+}
+
 
 /* ==================================================
    BOOK CONTAINER
 ================================================== */
 
+
 .profile-bookshelf .books {
     width: 100%;
     height: 100%;
-
+    min-width: 0;
+    box-sizing: border-box;
     display: flex;
-
     align-items: flex-end;
-
     justify-content: flex-start;
-
-    gap: 6px;
-
-    overflow: hidden;
+    gap: 5px;
+    overflow: visible;
+    padding-bottom: 0;
+    margin-bottom: -12px;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
+
 
 
 /* ==================================================
@@ -1711,17 +1721,77 @@ img {
    BOOK
 ================================================== */
 
+/* 3D book on the shelf */
 .profile-bookshelf .book {
-    flex-shrink: 0;
-    width: 112px;
-    min-width: 112px;
-    height: auto;
-    border-radius: 5px;
-    transition: transform 0.25s ease;
+    position: relative;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 105px;
+    margin-right: -5px;
+    cursor: pointer;
+    transform-origin: bottom center;
+    transform-style: preserve-3d;
+    transition:
+        transform 0.3s ease,
+        margin 0.3s ease;
+    z-index: 1;
 }
 
+/* Front cover */
+.profile-bookshelf .book .book-cover {
+    position: relative;
+    display: block;
+    width: 22px;
+    height: 105px;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid rgba(45, 32, 20, 0.2);
+    border-radius: 2px 2px 0 0;
+    box-shadow: 2px 0 3px rgba(45, 32, 20, 0.18);
+    z-index: 2;
+    transition:
+        width 0.3s ease,
+        height 0.3s ease;
+}
+
+
+/* Subtle 3D shading along the book spine */
+.profile-bookshelf .book-spine {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 3px;
+    height: 103px;
+    background: linear-gradient(
+        to right,
+        rgba(35, 23, 14, 0.55),
+        rgba(35, 23, 14, 0.18),
+        rgba(255, 255, 255, 0.22)
+    );
+    border-radius: 2px 0 0 0;
+    box-shadow: 1px 0 2px rgba(35, 23, 14, 0.18);
+    z-index: 3;
+    pointer-events: none;
+}
+
+
+
+/* Hover: lift and reveal the front cover */
 .profile-bookshelf .book:hover {
-    transform: translateY(-6px);
+    transform: translateY(-12px) rotateY(-8deg) scale(1.08);
+    margin-right: 12px;
+    z-index: 100;
+}
+
+.profile-bookshelf .book:hover .book-cover {
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    max-width: 150px;
+    max-height: 190px;
+    object-fit: contain;
+    border: 3px;
+    box-shadow: 0 8px 18px rgba(45, 32, 20, 0.3);
 }
 
 

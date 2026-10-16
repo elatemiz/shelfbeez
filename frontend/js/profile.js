@@ -146,6 +146,9 @@ function renderBooks() {
         return;
     }
 
+    let currentShelfIndex = 0;
+    const booksPerShelf = 20;
+
     // Place each book into a shelf container.
     user.books.forEach(function(book, index) {
         
@@ -180,14 +183,17 @@ function renderBooks() {
         };
       
      
-        // Book title
-        const titleElement = document.createElement("p");
-        titleElement.classList.add("book-title");
-        titleElement.textContent = book.title;
-        
-        
+        // Add only the cover to the book element
+
+        // Create the book spine on the left side
+        const bookSpine = document.createElement("div");
+        bookSpine.classList.add("book-spine");
+
+        // Keep the cover image
+        bookElement.appendChild(bookSpine);
         bookElement.appendChild(coverImage);
-        bookElement.appendChild(titleElement);
+
+
 
         bookElement.addEventListener("click", function() {
             editingBookId = book.id;
@@ -223,11 +229,21 @@ function renderBooks() {
             submitBookButton.textContent = "Save Changes";
 
         });
+        
+        
+        // Add the book to the current shelf.
+        bookshelves[currentShelfIndex].appendChild(bookElement);
 
-    
-        // Choose a shelf based on the book's index.
-        const shelfIndex = index % bookshelves.length;
-        bookshelves[shelfIndex].appendChild(bookElement);
+        // Move to the next shelf after 20 books.
+        if (
+            bookshelves[currentShelfIndex].children.length >= booksPerShelf &&
+            currentShelfIndex < bookshelves.length - 1
+        ) {
+            currentShelfIndex++;
+        }
+
+
+      
     });
 }
 

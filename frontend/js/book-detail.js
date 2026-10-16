@@ -84,6 +84,7 @@ async function getBookDetails() { //async because I am going to use await
     bookToSave = {
         id: bookData.key,
         title: bookData.title,
+        author: "Unknown Author",
         cover: bookData.covers ? bookData.covers[0] : null,
         status: "want-to-read",
         rating: 0
@@ -115,11 +116,12 @@ async function getBookDetails() { //async because I am going to use await
     const authorName = await getAuthorName(authorKey);
 
     bookAuthor.textContent = authorName;
+    bookToSave.author = authorName;
 
+    
     } else {
-
-    bookAuthor.textContent = "Unknown Author";
-
+        bookAuthor.textContent = "Unknown Author";    
+   
   }
 
     // description

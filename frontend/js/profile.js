@@ -27,6 +27,10 @@ const closeBookModalButton = document.querySelector("#close-book-modal");
 const modalTitle = document.querySelector(
     "#add-book-modal h2"
 );
+const cancelDeleteButton = document.querySelector("#cancel-delete");
+const confirmDeleteButton = document.querySelector("#confirm-delete");
+
+const dialog = document.getElementById("delete-dialog");
 
 addBookButton.addEventListener("click", function(){
 
@@ -42,14 +46,25 @@ closeBookModalButton.addEventListener("click", function(){
 });
 
 deleteBookButton.addEventListener("click", function(){
-    const storedUser = localStorage.getItem("user");
+    
+    dialog.showModal();
 
-    if(!storedUser || !editingBookId) { ////editingBookId: finds the book that is open in the modal.
+});
+
+cancelDeleteButton.addEventListener("click", function(){
+    
+    dialog.close();
+    
+});
+
+
+confirmDeleteButton.addEventListener("click", function(){
+    const storedUser = localStorage.getItem("user");
+        if(!storedUser || !editingBookId) { ////editingBookId: finds the book that is open in the modal.
         return;
     }
 
     const user = JSON.parse(storedUser);
-
 
     //only removes that book from the user.books list
     user.books = user.books.filter(function(book) { 
@@ -58,6 +73,8 @@ deleteBookButton.addEventListener("click", function(){
 
     localStorage.setItem("user", JSON.stringify(user));
 
+    dialog.close();
+
     addBookModal.style.display = "none";
 
     editingBookId = null;
@@ -65,9 +82,8 @@ deleteBookButton.addEventListener("click", function(){
     renderBooks();
     booksCount.textContent = user.books.length; //updating the number of books
 
-    console.log("Book deleted successfully.");
 });
-
+   
 const addBookForm = document.querySelector("#add-book-form");
 
 const editBookInfo = document.querySelector("#edit-book-info");
@@ -78,8 +94,6 @@ const editBookAuthor = document.querySelector("#edit-book-author");
 
 const statusInput = document.querySelector("#book-status");
 const ratingInput = document.querySelector("#book-rating");
-
-
 
 const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
 
@@ -171,7 +185,7 @@ function renderBooks() {
                 ? `https://covers.openlibrary.org/b/id/${book.cover}-M.jpg`
                 : book.cover;
         } else {
-            coverImage.src = "assets/images/bookcover_placeholder.jpg";
+            coverImage.src = "assets/images/cover_placeholder.jpg";
         }
 
         coverImage.onerror = function() {
@@ -179,7 +193,7 @@ function renderBooks() {
             console.log("Attempted URL:", coverImage.src);
         
             coverImage.onerror = null;
-            coverImage.src = "assets/images/bookcover_placeholder.jpg";
+            coverImage.src = "assets/images/cover_placeholder.jpg";
         };
       
      
@@ -212,12 +226,12 @@ function renderBooks() {
                 ? `https://covers.openlibrary.org/b/id/${book.cover}-M.jpg`
                 : book.cover;
             } else {
-                editBookCover.src = "assets/images/bookcover_placeholder.jpg";
+                editBookCover.src = "assets/images/cover_placeholder.jpg";
             }
 
             editBookCover.onerror = function() {
                 editBookCover.onerror = null;
-                editBookCover.src = "assets/images/bookcover_placeholder.jpg";
+                editBookCover.src = "assets/images/cover_placeholder.jpg";
             };
 
             // Load the current book's values.

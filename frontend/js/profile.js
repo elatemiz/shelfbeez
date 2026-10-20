@@ -145,12 +145,49 @@ addBookForm.addEventListener("submit", function(event) {
         return;
     }
 
+    // Store the old values before updating.
+    const oldStatus = bookToEdit.status;
+    const oldRating = Number(bookToEdit.rating) || 0;
+
     // Update the existing book.
     bookToEdit.status = status;
     bookToEdit.rating = rating;
 
+    
+    if (!Array.isArray(user.activities)) {
+        user.activities = [];
+    }
+
+    // Track status changes.
+    if (oldStatus !== status) {
+        user.activities.push({
+            id: Date.now(),
+            type: "status-updated",
+            bookTitle: bookToEdit.title,
+            bookCover: bookToEdit.cover,
+            oldStatus: oldStatus,
+            newStatus: status,
+            date: new Date().toISOString()
+        });
+    }
+
+    // Track rating changes.
+    if (oldRating !== rating) {
+        user.activities.push({
+            id: Date.now() + 1,
+            type: "rating-updated",
+            bookTitle: bookToEdit.title,
+            bookCover: bookToEdit.cover,
+            oldRating: oldRating,
+            newRating: rating,
+            date: new Date().toISOString()
+        });
+    }
+
     // Save the updated library.
     localStorage.setItem("user", JSON.stringify(user));
+
+    renderActivities();
 
     // Close the modal.
     addBookModal.style.display = "none";
@@ -183,13 +220,24 @@ function renderActivities() {
     // Show the three most recent book additions.
     const activities = currentUser.activities
         .filter(function(activity) {
-            return activity.type === "added" ||
-                   activity.type === "deleted";
+            return [
+                "added",
+                "deleted",
+                "status-updated",
+                "rating-updated"
+            ].includes(activity.type);
+           
         })
         .sort(function(a, b) {
             return new Date(b.date) - new Date(a.date);
         })
         .slice(0, 3);
+
+        const statusLabels = {
+            "want-to-read": "Want to Read",
+            "reading": "Reading",
+            "read": "Read"
+        };
 
     activities.forEach(function(activity) {
         const activityItem = document.createElement("article");
@@ -213,6 +261,7 @@ function renderActivities() {
 
         const activityText = document.createElement("p");
 
+        // Create the book title in bold.
         const bookTitle = document.createElement("strong");
         bookTitle.textContent = activity.bookTitle;
 
@@ -224,6 +273,19 @@ function renderActivities() {
             activityText.append("Removed ");
             activityText.appendChild(bookTitle);
             activityText.append(" from the bookshelf.");
+        } else if (activity.type === "status-updated") {
+            activityText.append("Changed status of ");
+            activityText.appendChild(bookTitle);
+            activityText.append(
+                ` from ${statusLabels[activity.oldStatus] || activity.oldStatus}` +
+                ` to ${statusLabels[activity.newStatus] || activity.newStatus}.`
+            );
+        } else if (activity.type === "rating-updated") {
+            activityText.append("Changed rating of ");
+            activityText.appendChild(bookTitle);
+            activityText.append(
+                ` from ${activity.oldRating} to ${activity.newRating} stars.`
+            );
         }
        
 

@@ -27,10 +27,26 @@ const closeBookModalButton = document.querySelector("#close-book-modal");
 const modalTitle = document.querySelector(
     "#add-book-modal h2"
 );
+
+const addBookForm = document.querySelector("#add-book-form");
+
+const editBookInfo = document.querySelector("#edit-book-info");
+const editBookCover = document.querySelector("#edit-book-cover");
+const editBookTitle = document.querySelector("#edit-book-title");
+const editBookAuthor = document.querySelector("#edit-book-author");
+
+const statusInput = document.querySelector("#book-status");
+const ratingInput = document.querySelector("#book-rating");
+
+const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
+
 const cancelDeleteButton = document.querySelector("#cancel-delete");
 const confirmDeleteButton = document.querySelector("#confirm-delete");
 
 const dialog = document.getElementById("delete-dialog");
+
+const activityList = document.querySelector(".activity-list");
+
 
 addBookButton.addEventListener("click", function(){
 
@@ -84,20 +100,6 @@ confirmDeleteButton.addEventListener("click", function(){
 
 });
    
-const addBookForm = document.querySelector("#add-book-form");
-
-const editBookInfo = document.querySelector("#edit-book-info");
-const editBookCover = document.querySelector("#edit-book-cover");
-const editBookTitle = document.querySelector("#edit-book-title");
-const editBookAuthor = document.querySelector("#edit-book-author");
-
-
-const statusInput = document.querySelector("#book-status");
-const ratingInput = document.querySelector("#book-rating");
-
-const submitBookButton = document.querySelector("#add-book-form button[type='submit']");
-
-
 addBookForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -144,6 +146,66 @@ addBookForm.addEventListener("submit", function(event) {
     console.log("Book updated:", bookToEdit);
 });
 
+function renderActivities() {
+
+    const storedUser = localStorage.getItem("user");
+    const currentUser = storedUser ? JSON.parse(storedUser) : null;
+
+    // Clear the existing activity items.
+    activityList.innerHTML = "";
+
+    // If there is no user or no activity, stop here.
+    if (!currentUser || !Array.isArray(currentUser.activities)) {
+        return;
+    }
+
+    // Show the three most recent book additions.
+    const activities = currentUser.activities
+        .filter(function(activity) {
+            return activity.type === "added";
+        })
+        .sort(function(a, b) {
+            return new Date(b.date) - new Date(a.date);
+        })
+        .slice(0, 3);
+
+    activities.forEach(function(activity) {
+        const activityItem = document.createElement("article");
+        activityItem.classList.add("activity-item");
+
+        const coverContainer = document.createElement("div");
+        coverContainer.classList.add("activity-book-cover");
+
+        const coverImage = document.createElement("img");
+
+        coverImage.src = activity.bookCover
+            ? `https://covers.openlibrary.org/b/id/${activity.bookCover}-M.jpg`
+            : "assets/images/cover_placeholder.jpg";
+
+        coverImage.alt = `${activity.bookTitle} book cover`;
+
+        coverContainer.appendChild(coverImage);
+
+        const activityContent = document.createElement("div");
+        activityContent.classList.add("activity-content");
+
+        const activityText = document.createElement("p");
+        activityText.textContent = `Added ${activity.bookTitle} to your bookshelf.`;
+
+        const activityDate = document.createElement("span");
+        activityDate.classList.add("activity-date");
+        activityDate.textContent = new Date(activity.date).toLocaleDateString();
+
+        activityContent.appendChild(activityText);
+        activityContent.appendChild(activityDate);
+
+        activityItem.appendChild(coverContainer);
+        activityItem.appendChild(activityContent);
+
+        activityList.appendChild(activityItem);
+    });
+    
+}
 
 function renderBooks() {
     const storedUser = localStorage.getItem("user");
@@ -256,13 +318,11 @@ function renderBooks() {
             currentShelfIndex++;
         }
 
-
-      
     });
 }
 
-
 renderBooks();
+renderActivities();
 
 
 

@@ -23,6 +23,7 @@ async function getAuthorName(authorKey){
 
     let bookToSave = null;
     let existingBook = null;
+    
 
     const response = await fetch(
         `https://openlibrary.org${authorKey}.json`
@@ -62,7 +63,22 @@ saveBookBtn.addEventListener("click", function() {
         user.books.push(bookToSave);
 
         console.log("New book added:", bookToSave);
+
+        if (!user.activities) {
+            user.activities = [];
+        }
+
+        const userActivities = {
+            id: Date.now(),
+            type: "added",
+            bookTitle: bookToSave.title,
+            bookCover: bookToSave.cover,
+            date: new Date().toISOString()
+            
     }
+
+    user.activities.push(userActivities);
+}
 
     localStorage.setItem("user", JSON.stringify(user));
 

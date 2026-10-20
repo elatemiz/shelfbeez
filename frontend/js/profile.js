@@ -82,11 +82,32 @@ confirmDeleteButton.addEventListener("click", function(){
 
     const user = JSON.parse(storedUser);
 
+    // Find the book before deleting it.
+    const deletedBook = user.books.find(function(book) {
+        return book.id === editingBookId;
+    });
+
+    // Record the deletion activity.
+    if (deletedBook) {
+        if (!Array.isArray(user.activities)) {
+            user.activities = [];
+        }
+    
+        user.activities.push({
+            id: Date.now(),
+            type: "deleted",
+            bookTitle: deletedBook.title,
+            bookCover: deletedBook.cover,
+            date: new Date().toISOString()
+        });
+    }
+
     //only removes that book from the user.books list
     user.books = user.books.filter(function(book) { 
         return book.id !== editingBookId; 
     });
 
+    // Save the updated user and activity list.
     localStorage.setItem("user", JSON.stringify(user));
 
     dialog.close();
@@ -162,7 +183,8 @@ function renderActivities() {
     // Show the three most recent book additions.
     const activities = currentUser.activities
         .filter(function(activity) {
-            return activity.type === "added";
+            return activity.type === "added" ||
+                   activity.type === "deleted";
         })
         .sort(function(a, b) {
             return new Date(b.date) - new Date(a.date);
@@ -190,7 +212,20 @@ function renderActivities() {
         activityContent.classList.add("activity-content");
 
         const activityText = document.createElement("p");
-        activityText.textContent = `Added ${activity.bookTitle} to your bookshelf.`;
+
+        const bookTitle = document.createElement("strong");
+        bookTitle.textContent = activity.bookTitle;
+
+        if (activity.type === "added") {
+            activityText.append("Added ");
+            activityText.appendChild(bookTitle);
+            activityText.append(" to the bookshelf.");
+        } else if (activity.type === "deleted") {
+            activityText.append("Removed ");
+            activityText.appendChild(bookTitle);
+            activityText.append(" from the bookshelf.");
+        }
+       
 
         const activityDate = document.createElement("span");
         activityDate.classList.add("activity-date");

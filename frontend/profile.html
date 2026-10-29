@@ -60,7 +60,7 @@
                 <p id="profile-username" class="profile-handle">
                 </p>
 
-                <p class="profile-bio">
+                <p class="profile-bio" id="profile-bio">
                     Books, stories and little moments.
                 </p>
 
@@ -84,7 +84,7 @@
 
         </div>
 
-        <button class="edit-profile-btn">
+        <button class="edit-profile-btn" id="edit-profile-btn">
             Edit Profile
         </button>
 
@@ -354,6 +354,49 @@
     </section>
 
 </main>
+
+  
+<dialog id="edit-profile-modal">
+    <div class="edit-profile-header">
+        <h2>Edit Profile</h2>
+        <button type="button" id="close-edit-profile" aria-label="Close">
+            &times;
+        </button>
+    </div>
+
+    <form id="edit-profile-form">
+        <label for="edit-profile-name">Full Name</label>
+        <input
+            type="text"
+            id="edit-profile-name"
+            required
+        >
+
+        <label for="edit-profile-username">Username</label>
+        <input
+            type="text"
+            id="edit-profile-username"
+            required
+        >
+
+        <label for="edit-profile-bio">Bio</label>
+        <textarea
+            id="edit-profile-bio"
+            rows="3"
+            maxlength="200"
+        ></textarea>
+
+        <div class="edit-profile-actions">
+            <button type="button" id="cancel-edit-profile">
+                Cancel
+            </button>
+            <button type="submit">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</dialog>
+
 
   <script src="js/main.js"></script>
   <script src="js/profile.js"></script>

@@ -47,6 +47,83 @@ const dialog = document.getElementById("delete-dialog");
 
 const activityList = document.querySelector(".activity-list");
 
+const editProfileButton = document.querySelector("#edit-profile-btn");
+const editProfileModal = document.querySelector("#edit-profile-modal");
+const editProfileForm = document.querySelector("#edit-profile-form");
+
+const editProfileName = document.querySelector("#edit-profile-name");
+const editProfileUsername = document.querySelector("#edit-profile-username");
+const editProfileBio = document.querySelector("#edit-profile-bio");
+
+const closeEditProfileButton = document.querySelector("#close-edit-profile");
+const cancelEditProfileButton = document.querySelector("#cancel-edit-profile");
+
+const profileBio = document.querySelector("#profile-bio");
+
+editProfileButton.addEventListener("click", function() {
+    const storedUser = localStorage.getItem("user");
+
+    if (!storedUser) {
+        console.error("No logged-in user found.");
+        return;
+    }
+
+    const user = JSON.parse(storedUser);  
+
+ //`value` property because these are form fields
+    editProfileName.value = user.name || "";
+    editProfileUsername.value = user.username || "";
+    editProfileBio.value = user.bio || "";
+
+    editProfileModal.showModal();
+});
+
+closeEditProfileButton.addEventListener("click", function() {
+    editProfileModal.close();
+});
+
+cancelEditProfileButton.addEventListener("click", function() {
+    editProfileModal.close();   
+});
+
+editProfileForm.addEventListener("submit", function(event) {
+    event.preventDefault(); //prevents the page from refreshing when a form is submitted
+
+    const storedUser = localStorage.getItem("user");
+
+    if(!storedUser) {
+        console.error("No logged-in user found.");
+        return;
+    }
+
+    const user = JSON.parse(storedUser);
+
+    const name = editProfileName.value.trim();
+    const username = editProfileUsername.value.trim();
+    const bio =editProfileBio.value.trim();
+
+    if(!name || !username) {
+        return;
+    }
+
+    user.name = name;
+    user.username = username;
+    user.bio = bio;
+
+    localStorage.setItem ("user", JSON.stringify(user)); //saves the updated user
+
+    profileName.textContent = user.name;
+    profileUsername.textContent = `@${user.username}`;
+    profileBio.textContent = user.bio || "Books, stories and little moments.";
+
+    editProfileModal.close();
+
+    if (typeof updateNavbar === "function") {
+        updateNavbar();
+    }
+
+});
+
 
 addBookButton.addEventListener("click", function(){
 

@@ -4,6 +4,7 @@ let editingBookId = null;
 const profileName = document.querySelector("#profile-name");
 const profileUsername = document.querySelector("#profile-username");
 const booksCount = document.querySelector("#books-count");
+const profileAvatar = document.querySelector("#profile-avatar-img");
 
 const storedUser = localStorage.getItem("user");
 const user = storedUser ? JSON.parse(storedUser) : null;
@@ -11,6 +12,12 @@ const user = storedUser ? JSON.parse(storedUser) : null;
 if (user) {
     profileName.textContent = user.name;
     profileUsername.textContent = `@${user.username}`;
+
+    const savedAvatar = user.profilePicture;
+
+    if (savedAvatar) {
+        profileAvatar.src = savedAvatar;
+    }
 
     const books = user.books || [];
     booksCount.textContent = books.length;
@@ -57,6 +64,16 @@ const editProfileBio = document.querySelector("#edit-profile-bio");
 
 const closeEditProfileButton = document.querySelector("#close-edit-profile");
 const cancelEditProfileButton = document.querySelector("#cancel-edit-profile");
+
+const avatarModal = document.querySelector("#avatar-modal");
+const largeAvatar = document.querySelector("#large-avatar-img");
+
+const closeAvatarModal = document.querySelector("#close-avatar-modal");
+const changeAvatarButton = document.querySelector("#change-avatar-btn");
+
+const uploadAvatarButton = document.querySelector("#upload-avatar-btn");
+const avatarUploadInput = document.querySelector("#avatar-upload-input");
+const removeAvatarButton = document.querySelector("#remove-avatar-btn");
 
 const profileBio = document.querySelector("#profile-bio");
 
@@ -121,6 +138,101 @@ editProfileForm.addEventListener("submit", function(event) {
     if (typeof updateNavbar === "function") {
         updateNavbar();
     }
+
+});
+
+//Profile Avatar:
+
+profileAvatar.addEventListener("click", function() {
+    largeAvatar.src = profileAvatar.src;
+    avatarModal.showModal();
+});
+
+changeAvatarButton.addEventListener("click", function(){
+    largeAvatar.src = profileAvatar.src;
+    avatarModal.showModal();
+});
+
+closeAvatarModal.addEventListener("click", function(){
+    avatarModal.close();
+});
+
+//Upload Avatar
+uploadAvatarButton.addEventListener("click", function() {
+    avatarUploadInput.click();
+});
+
+avatarUploadInput.addEventListener("change", function(){ //The 'change' event occurs when the value of an input changes.
+
+    const file = avatarUploadInput.files[0]; // we take the first element beacuse we do not allow multiple files to be selected in our input.
+
+    if (!file) { //Check whether the `file` variable is empty or does not exist.
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {  //startsWith() is a string method. It checks whether a text begins with a specific expression.
+        alert("Please select an image file.");
+        return;
+    }
+
+    if (file.size > 2 * 1024 *1024) {
+        alert( "Image size must be smaller than 2 MB.");
+        return;
+    }
+
+    //Reading a photo with FileReader, it is a built-in JavaScript API .
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) { 
+        const imageData = event.target.result; 
+        //event.target: The object on which the event occurred—in this case, the FileReader.
+
+        //.result: The data obtained as a result of reading the file.
+
+        const storedUser = localStorage.getItem("user"); //retrieving user data from localStorage
+
+        if (!storedUser) {
+            return;
+        }
+        const user = JSON.parse(storedUser); //converting user data into a JavaScript object. string to object
+
+        user.profilePicture = imageData; //adding the photo to the user object (Object property)
+
+        localStorage.setItem("user", JSON.stringify(user)); //object → JSON string
+
+        profileAvatar.src = imageData;
+        largeAvatar.src = imageData;
+
+        avatarUploadInput.value = ""; //clearing the file input
+
+        avatarModal.close();
+    };
+
+    reader.readAsDataURL(file);
+});
+
+//Remove Avatar:
+
+removeAvatarButton.addEventListener("click", function() {
+    const storedUser = localStorage.getItem("user");
+
+    if( !storedUser) {
+        return;
+    }
+
+    const user = JSON.parse(storedUser);
+
+    delete user.profilePicture; // delete properties of JavaScript objects.
+
+    localStorage.setItem("user", JSON.stringify(user)); //deleting it from the JavaScript object is not enough, must update the old data in localStorage.
+
+    const defaultAvatar = "assets/images/profile_placeholder.png";
+
+    profileAvatar.src = defaultAvatar;
+    largeAvatar.src = defaultAvatar;
+
+    avatarModal.close();
 
 });
 

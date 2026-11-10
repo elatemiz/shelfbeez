@@ -49,10 +49,19 @@
         <div class="profile-info">
 
             <div class="profile-avatar">
-                <img src="assets/images/profile_placeholder.jpg"
+                <img src="assets/images/profile_placeholder.png"
                 alt="Profile Avatar"
->
-            </div>
+                id="profile-avatar-img";
+            >
+            <button
+                 type="button";
+                 class="change-avatar-btn";
+                 id="change-avatar-btn";
+                 aria-label="Change profile picture";
+            >
+                📷
+            </button>
+         </div>
 
             <div class="profile-details">
                 <h1 class="profile-username" id="profile-name">name</h1>
@@ -396,6 +405,46 @@
         </div>
     </form>
 </dialog>
+
+<dialog id="avatar-modal">
+    <div class="avatar-modal-content">
+        <button
+        type="button"
+        id="close-avatar-modal"
+        aria-label="Close"
+        >
+         &times;
+        </button>
+
+        <h2>Profile Picture</h2>
+
+        <img src="assets/images/profile_placeholder.png" 
+             alt="Enlarged profile picture"
+             id="large-avatar-img"
+        >
+    <div class="avatar-actions">
+
+        <button type="button" id="upload-avatar-btn">
+            Upload Photo
+        </button>
+
+        <input
+            type="file"
+            id="avatar-upload-input"
+            accept="image/*"
+            hidden
+        >
+
+        <button type="button" id="remove-avatar-btn">
+            Remove Photo
+        </button>
+
+     </div>
+        
+    </div>
+</dialog>
+ 
+ 
 
 
   <script src="js/main.js"></script>

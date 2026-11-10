@@ -2852,5 +2852,138 @@ img {
     }
 }
 
+/*Profile Avatar Modal*/
+
+.profile-avatar {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+
+.change-avatar-btn {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--background);
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--background);
+    font-size: 17px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.change-avatar-btn:hover {
+    transform: scale(1.1);
+}
+
+#avatar-modal {
+    width: min(90%, 400px);
+    padding: 30px;
+    border: none;
+    border-radius: 18px;
+    background: var(--background);
+    color: var(--primary);
+    text-align: center;
+    margin: auto;
+}
+
+#avatar-modal::backdrop {
+    background: rgba(45, 38, 32, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.avatar-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.avatar-modal-content h2 {
+    font-family: "Fraunces", serif;
+    margin-bottom: 24px;
+}
+
+#large-avatar-img {
+    display: block;
+    width: 240px;
+    height: 240px;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+#close-avatar-modal {
+    position: absolute;
+    top: -15px;
+    right: -10px;
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.avatar-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.avatar-actions button {
+    padding: 11px 18px;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    background: var(--primary);
+    color: var(--background);
+    font: inherit;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.avatar-actions button:hover {
+    background: #625749;
+    transform: translateY(-2px);
+}
+
+#remove-avatar-btn {
+    background: transparent;
+    color: var(--primary);
+}
+
+#remove-avatar-btn:hover {
+    background: var(--surface);
+}
+
 
 

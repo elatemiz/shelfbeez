@@ -1724,36 +1724,48 @@ img {
 /* 3D book on the shelf */
 .profile-bookshelf .book {
     position: relative;
+    overflow: visible;
     flex: 0 0 auto;
     width: 22px;
     height: 105px;
     margin-right: -5px;
     cursor: pointer;
+
     transform-origin: bottom center;
     transform-style: preserve-3d;
+
     transition:
         transform 0.3s ease,
         margin 0.3s ease;
+
     z-index: 1;
 }
 
 /* Front cover */
 .profile-bookshelf .book .book-cover {
-    position: relative;
+    position: absolute;
     display: block;
+
+    left: 0;
+    bottom: 0;
+
     width: 22px;
     height: 105px;
+
     object-fit: cover;
     object-position: center;
+
     border: 1px solid rgba(45, 32, 20, 0.2);
     border-radius: 2px 2px 0 0;
+
     box-shadow: 2px 0 3px rgba(45, 32, 20, 0.18);
     z-index: 2;
+
     transition:
         width 0.3s ease,
-        height 0.3s ease;
+        height 0.3s ease,
+        box-shadow 0.3s ease;
 }
-
 
 /* Subtle 3D shading along the book spine */
 .profile-bookshelf .book-spine {
@@ -1778,20 +1790,9 @@ img {
 
 /* Hover: lift and reveal the front cover */
 .profile-bookshelf .book:hover {
-    transform: translateY(-12px) rotateY(-8deg) scale(1.08);
+    transform:rotateY(-8deg) scale(1.04); /*translate: for which direction, rotate: for 3D effect, scale: for how big */
     margin-right: 12px;
     z-index: 100;
-}
-
-.profile-bookshelf .book:hover .book-cover {
-    width: auto;
-    height: auto;
-    border-radius: 4px;
-    max-width: 150px;
-    max-height: 190px;
-    object-fit: contain;
-    border: 3px;
-    box-shadow: 0 8px 18px rgba(45, 32, 20, 0.3);
 }
 
 
@@ -2983,6 +2984,25 @@ img {
 
 #remove-avatar-btn:hover {
     background: var(--surface);
+}
+
+.profile-bookshelf .book:hover .book-cover {
+    width: auto !important;
+    height: 170px !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    object-fit: contain;
+    object-position: bottom center;
+
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(45, 32, 20, 0.3);
+
+    z-index: 999;
 }
 
 

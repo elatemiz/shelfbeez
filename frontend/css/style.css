@@ -2130,6 +2130,39 @@ img {
     font-weight: 600;
 }
 
+/* Load More Button */
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin: 45px 0 60px;
+}
+
+#load-more-btn {
+    padding: 10px 22px;
+    border: 1px solid var(--surface);
+    border-radius: 10px;
+
+    background-color: var(--surface);
+    color: var(--primary);
+
+    font-family: "Epilogue";
+    font-size: 15px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#load-more-btn:hover {
+    background-color: var(--primary);
+    color: var(--background);
+}
+
 
 /* ==================================================
    BOOK GRID

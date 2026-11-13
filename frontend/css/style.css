@@ -187,22 +187,31 @@ img {
     transition: color 0.3s ease;
 }
 
+
 .register-btn {
     padding: 10px 18px;
-    border-radius: 8px;
+    border: none;
+    border-radius: 10px;
     background-color: var(--primary);
     color: var(--background);
+
+    font-family: inherit;
+    font-size: inherit;
+
+    appearance: none;
+    box-shadow: none;
+
     transition: background-color 0.3s ease, transform 0.3s ease;
+    
 }
 
 .login-btn:hover {
     color: var(--secondary);
 }
 
-
 .register-btn:hover {
-    background-color: var(--secondary);
-    transform: translateY(-1px);
+    background-color: #6c5d4f ;
+   
 }
 
 
@@ -559,126 +568,7 @@ img {
     color: var(--secondary);
 }
 
-/* ==================================================
-   8. SEARCH SECTION
-   ================================================== */
-
-.book-search {
-    padding: 100px 0;
-    background-color: var(--background);
-}
-
-.search-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.section-label {
-    margin-bottom: 12px;
-    color: var(--secondary);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.search-content h2 {
-    margin-bottom: 18px;
-    color: var(--primary);
-    font-size: 2.5rem;
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-.search-content > p:not(.section-label) {
-    max-width: 450px;
-    margin: 0 auto 35px;
-    color: var(--text);
-    font-size: 1rem;
-    line-height: 1.7;
-    font-family: "Epilogue";
-}
-
-.search-form {
-    display: flex;
-    max-width: 500px;
-    margin: 0 auto 25px;
-
-    background-color: hsl(40, 100%, 98%);
-    border: 1px solid var(--secondary);
-    border-radius: 5px;
-}
-
-
-.search-form input {
-    flex: 1;
-    min-width: 0;
-    padding: 16px 20px;
-
-    border: none;
-    outline: none;
-    background: transparent;
-
-    color: var(--primary);
-    font-family: inherit;
-    font-size: 0.95rem;
-}
-
-.search-form input::placeholder {
-    color: var(--secondary);
-    opacity: 1;
-}
-
-.search-form button {
-    padding: 14px 28px;
-
-    border: none;
-    border-radius: 5px;
-
-    background-color: var(--primary);
-    color: var(--background);
-
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
-
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-form button:hover {
-    background-color: var(--secondary);
-}
-
-.categories {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.categories a {
-    padding: 8px 16px;
-
-    border: 1px solid var(--secondary);
-    border-radius: 30px;
-    background-color: #F2D7D9;
-
-    color: var(--primary);
-    font-size: 0.8rem;
-    text-decoration: none;
-
-    transition: all 0.3s ease;
-}
-
-.categories a:hover {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: var(--background);
-}
-
-/* ==================================================
+/*==================================================
    9. FOOTER
    ================================================== */
 
@@ -2094,17 +1984,53 @@ img {
 ================================================== */
 
 .book-search {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 60px;
-    
+    padding: 100px 0;
+    background-color: var(--background);
 }
 
-#book-search-form {
-    width: min(100%, 650px);
+.search-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-label {
+    margin-bottom: 12px;
+    color: var(--secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.search-content h1 {
+    margin-bottom: 18px;
+    color: var(--primary);
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.search-content > p:not(.section-label) {
+    max-width: 450px;
+    margin: 0 auto 35px;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-family: "Epilogue";
+}
+
+.search-options {
+    width: min(100%, 500px);
+    margin: 0 auto;
+}
+
+.discover-search-form {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 #book-search-input {
@@ -2124,22 +2050,53 @@ img {
 
     transition: border-color 0.3s ease,
                 box-shadow 0.3s ease;
-}
 
-#book-search-input::placeholder {
-    color: var(--secondary);
-}
-
-#book-search-form button {
-    height: 46px;
-    box-sizing: border-box;
 }
 
 #book-search-input:focus {
     border-color: var(--primary);
-
     box-shadow: 0 0 0 3px rgba(119, 107, 93, 0.12);
 }
+
+.discover-search-form button {
+    height: 46px;
+    padding: 0 26px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.discover-search-form button:hover {
+    background-color: #6c5d4f ;
+}
+
+.categories {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+} 
+
+.categories a {
+    padding: 8px 16px;
+
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
+    background-color: #dfbdc0;
+
+    color: var(--primary);
+    font-size: 0.8rem;
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+}
+
+.categories a:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--background);
+}
+
 
 
 /* ==================================================

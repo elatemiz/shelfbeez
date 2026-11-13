@@ -47,48 +47,59 @@
 
     </header>
 
+    
+<!-- ==================== DISCOVER BOOKS ==================== -->
 
-    <!-- ==================================================
-         BOOKS PAGE
-    ================================================== -->
+<section class="book-search">
 
-    <main class="books-page">
+    <div class="container">
 
-        <!-- Page Header -->
+        <div class="search-content">
 
-        <section class="books-header">
-
-            <h1>Discover Books</h1>
-
-            <p>
-                Find your next favorite read.
+            <p class="section-label">
+                DISCOVER BOOKS
             </p>
 
-        </section>
+            <h1>
+                What will you read next?
+            </h1>
 
+            <p>
+                Search through thousands of books
+                and start creating your digital bookshelf.
+            </p>
 
-        <!-- Search -->
+            <div class="search-options">
 
-        <section class="book-search">
+                <form id="book-search-form" class="discover-search-form">
+                    <input
+                        type="text"
+                        id="book-search-input"
+                        placeholder="Search books, authors..."
+                    >
+            
+                    <button type="submit" class="register-btn">
+                        Search
+                    </button>
+                </form>
+            
+                <div class="categories">
+                    <a href="#" data-query="Fantasy">Fantasy</a>
+                    <a href="#" data-query="Science Fiction">Science Fiction</a>
+                    <a href="#" data-query="Mystery">Mystery</a>
+                    <a href="#" data-query="Romance">Romance</a>
+                    <a href="#" data-query="Classics">Classics</a>
+                </div>
+            
+            </div>
 
-            <form id="book-search-form">
+        </div>
 
-                <input
-                    type="text"
-                    id="book-search-input"
-                    placeholder="Search books, authors..."
-                >
+    </div>
 
-                <button
-                    type="submit"
-                    class="register-btn"
-                >
-                    Search
-                </button>
+</section>
 
-            </form>
-
-        </section>
+    
 
 
         <!-- Book Results -->

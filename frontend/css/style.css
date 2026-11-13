@@ -2082,7 +2082,7 @@ img {
 
     border: 1px solid var(--secondary);
     border-radius: 10px;
-    background-color: #dfbdc0;
+    background-color: #fae9d9;
 
     color: var(--primary);
     font-size: 0.8rem;
@@ -2091,12 +2091,25 @@ img {
     transition: all 0.3s ease;
 }
 
-.categories a:hover {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: var(--background);
+.category-fantasy:hover {
+    background-color: #9dc286;
 }
 
+.category-sci-fi:hover {
+    background-color: #98a6cb;
+}
+
+.category-mystery:hover {
+    background-color: #B490A9;
+}
+
+.category-romance:hover {
+    background-color: #D8A4AF;
+}
+
+.category-classics:hover {
+    background-color: #b9b469;
+}
 
 
 /* ==================================================

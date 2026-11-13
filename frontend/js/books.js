@@ -7,6 +7,8 @@ const categoryLinks = document.querySelectorAll(".categories a"); //selecting al
 
 const loadMoreBtn = document.querySelector("#load-more-btn");
 
+const popularBooksSection = document.querySelector("#popular-books-section"); 
+
 let currentPage = 1;  //keeps track of which results page we are requesting from the API
 
 let currentQuery = ""; //stores the most recent search
@@ -62,7 +64,7 @@ async function searchBooks(query){
     try {
 
     const response = await fetch(
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12&page=${currentPage}` 
+        `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=14&page=${currentPage}` 
     );
 
     console.log("Response:", response);
@@ -71,7 +73,7 @@ async function searchBooks(query){
 
     totalResults = data.numFound;
 
-    const apiBooks = data.docs.slice(0, 12).map(function(book) {
+    const apiBooks = data.docs.slice(0, 14).map(function(book) {
 
         return {
             id: book.key,
@@ -101,7 +103,7 @@ async function searchBooks(query){
     }
 
     //In both cases, the `finally` block executes and sets `isLoading = false`
-    
+
     finally {  
         isLoading = false;
     }
@@ -141,6 +143,8 @@ searchForm.addEventListener("submit", function(event){
 
     searchBooks(searchTerm);
 
+    popularBooksSection.style.display = "none";
+
 });
 
 loadMoreBtn.addEventListener("click", function(){  //user clicks "Load More."
@@ -158,3 +162,8 @@ loadMoreBtn.addEventListener("click", function(){  //user clicks "Load More."
     searchBooks(currentQuery); //request is sent to the API again with the same search term
     //currentPage > 1, new books are added below the existing list
 })
+
+currentQuery = "bestsellers";
+currentPage = 1; 
+
+searchBooks(currentQuery);

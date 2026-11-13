@@ -11,6 +11,9 @@ let currentPage = 1;  //keeps track of which results page we are requesting from
 
 let currentQuery = ""; //stores the most recent search
 
+let totalResults = 0; //the total number of books found in the search
+let isLoading = false; //tracks whether the API request is still in progress
+
 
 function renderBooks(bookToRender, append = false) {
 
@@ -52,6 +55,10 @@ async function searchBooks(query){
 
     console.log("Searching:", query);
 
+    isLoading = true; //Before the request begins, isLoading becomes true
+
+    //If the request is successful, the try block executes
+
     try {
 
     const response = await fetch(
@@ -61,6 +68,8 @@ async function searchBooks(query){
     console.log("Response:", response);
 
     const data = await response.json();
+
+    totalResults = data.numFound;
 
     const apiBooks = data.docs.slice(0, 12).map(function(book) {
 
@@ -80,10 +89,21 @@ async function searchBooks(query){
     renderBooks(apiBooks, currentPage > 1); //If currentPage is 1, the list is cleared.
     //If currentPage is 2 or greater, the books are added to the end of the existing list.
 
-    } catch (error) {
+    const loadedBooks = booksGrid.querySelectorAll(".book-card").length; //finds the existing book cards on the page, .length counts how many books have been loaded
+
+    loadMoreBtn.parentElement.style.display =     
+        loadedBooks >= totalResults ? "none" : "";  //If the number of loaded books reaches the total number of results, it hides the container for the "Load More" button
+
+    } catch (error) {  //If an error occurs, the catch block executes
 
     console.error("API error:", error);
 
+    }
+
+    //In both cases, the `finally` block executes and sets `isLoading = false`
+    
+    finally {  
+        isLoading = false;
     }
 }
 
@@ -124,6 +144,14 @@ searchForm.addEventListener("submit", function(event){
 });
 
 loadMoreBtn.addEventListener("click", function(){  //user clicks "Load More."
+
+    const loadedBooks = booksGrid.querySelectorAll(".book-card").length;
+
+    if (isLoading || loadedBooks >= totalResults) {
+        return;
+    }  
+    //isLoading: If there is an ongoing API request, no new request is sent.
+    //loadedBooks >= totalResults: If all books have already been loaded, no new request is sent.
 
     currentPage++; //currentPage is incremented by one
 

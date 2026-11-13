@@ -2721,9 +2721,9 @@ img {
 
 .edit-profile-header h2 {
     margin: 0;
-    font-family: "Francues", serif;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-family: "Epilogue", serif;
+    font-size: 1.4rem;
+    font-weight: 800;
     color: var(--primary);
 }
 
@@ -2927,7 +2927,7 @@ img {
 }
 
 .avatar-modal-content h2 {
-    font-family: "Fraunces", serif;
+    font-family: "Epilogue", serif;
     margin-bottom: 24px;
 }
 

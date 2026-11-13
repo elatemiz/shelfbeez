@@ -77,6 +77,22 @@ const removeAvatarButton = document.querySelector("#remove-avatar-btn");
 
 const profileBio = document.querySelector("#profile-bio");
 
+const viewAllActivitiesLink = document.querySelector("#view-all-activities");
+
+let showAllActivities = false;
+
+viewAllActivitiesLink.addEventListener("click", function(event){
+    event.preventDefault();
+
+    showAllActivities = !showAllActivities;
+
+    viewAllActivitiesLink.textContent = showAllActivities
+        ? "Show Less"
+        : "View All";
+
+    renderActivities();
+});
+
 editProfileButton.addEventListener("click", function() {
     const storedUser = localStorage.getItem("user");
 
@@ -407,7 +423,7 @@ function renderActivities() {
     }
 
     // Show the three most recent book additions.
-    const activities = currentUser.activities
+    const allActivities = currentUser.activities
         .filter(function(activity) {
             return [
                 "added",
@@ -420,7 +436,11 @@ function renderActivities() {
         .sort(function(a, b) {
             return new Date(b.date) - new Date(a.date);
         })
-        .slice(0, 3);
+        
+        const activities = showAllActivities
+            ? allActivities
+            : allActivities.slice(0, 3);
+             
 
         const statusLabels = {
             "want-to-read": "Want to Read",

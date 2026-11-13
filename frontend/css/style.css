@@ -1997,7 +1997,7 @@ img {
 .section-label {
     margin-bottom: 12px;
     color: var(--secondary);
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -2082,7 +2082,7 @@ img {
 
     border: 1px solid var(--secondary);
     border-radius: 10px;
-    background-color: #fae9d9;
+    background-color: var(--surface);
 
     color: var(--primary);
     font-size: 0.8rem;

@@ -3,10 +3,20 @@ const booksGrid = document.querySelector("#books-grid");
 const searchForm = document.querySelector("#book-search-form");
 const searchInput = document.querySelector("#book-search-input");
 
+const categoryLinks = document.querySelectorAll(".categories a"); //selecting all `<a>` tags within `.categories`. `querySelectorAll()` returns a list containing multiple elements
 
-function renderBooks(bookToRender){
-      
-    booksGrid.innerHTML = "";
+const loadMoreBtn = document.querySelector("#load-more-btn");
+
+let currentPage = 1;  //keeps track of which results page we are requesting from the API
+
+let currentQuery = ""; //stores the most recent search
+
+
+function renderBooks(bookToRender, append = false) {
+
+    if (!append) {
+        booksGrid.innerHTML = "";
+    }
 
     bookToRender.forEach(function(book){
 
@@ -45,7 +55,7 @@ async function searchBooks(query){
     try {
 
     const response = await fetch(
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
+        `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12&page=${currentPage}` 
     );
 
     console.log("Response:", response);
@@ -67,7 +77,8 @@ async function searchBooks(query){
     
     });
     
-    renderBooks(apiBooks);
+    renderBooks(apiBooks, currentPage > 1); //If currentPage is 1, the list is cleared.
+    //If currentPage is 2 or greater, the books are added to the end of the existing list.
 
     } catch (error) {
 
@@ -75,6 +86,23 @@ async function searchBooks(query){
 
     }
 }
+
+categoryLinks.forEach(function(category){ //go through each category link found, one by one.
+
+    category.addEventListener("click", function(event){  //adding a click event to each category
+        event.preventDefault();
+
+        const searchTerm = category.dataset.query; //etrieve the data-query value of the clicked category
+
+        searchInput.value = searchTerm; //type the name of the selected category into the search box
+
+        currentQuery = searchTerm;
+        currentPage = 1;
+
+        searchBooks(searchTerm); //API request begins, and the books are listed
+    });
+
+});
 
 
 searchForm.addEventListener("submit", function(event){
@@ -87,7 +115,18 @@ searchForm.addEventListener("submit", function(event){
         return;
     }
 
+    //When a new search is performed, first update the search term and the page number
+    currentQuery = searchTerm; 
+    currentPage = 1;
+
     searchBooks(searchTerm);
 
-
 });
+
+loadMoreBtn.addEventListener("click", function(){  //user clicks "Load More."
+
+    currentPage++; //currentPage is incremented by one
+
+    searchBooks(currentQuery); //request is sent to the API again with the same search term
+    //currentPage > 1, new books are added below the existing list
+})

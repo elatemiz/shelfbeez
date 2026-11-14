@@ -375,7 +375,7 @@ img {
 
     box-sizing: border-box;
 
-    overflow: hidden;
+    overflow: visible;
 }
 
 .shelf-row::before {
@@ -407,16 +407,80 @@ img {
     border-radius: 4px;
 }
 
+/* Homepage bookshelf books */
 .hero-bookshelf .books {
-    /* Homepage book container */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 5px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
+/* Individual book */
 .hero-bookshelf .book {
-    /* Homepage individual book */
+    position: relative;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 90px;
+    cursor: pointer;
+
+    transform-origin: bottom center;
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.3s ease,
+        margin 0.3s ease;
+
+    z-index: 1;
 }
 
+/* Book cover */
 .hero-bookshelf .book .book-cover {
-    /* Homepage book cover */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 22px;
+    height: 90px;
+
+    object-fit: cover;
+    object-position: center;
+
+    border: 1px solid rgba(45, 32, 20, 0.2);
+    border-radius: 2px 2px 0 0;
+
+    box-shadow: 2px 0 3px rgba(45, 32, 20, 0.18);
+}
+
+/* Book spine */
+.hero-bookshelf .book .book-spine {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+
+    width: 3px;
+    height: 88px;
+
+    background: linear-gradient(
+        to right,
+        rgba(35, 23, 14, 0.55),
+        rgba(35, 23, 14, 0.18),
+        rgba(255, 255, 255, 0.22)
+    );
+
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Hover */
+.hero-bookshelf .book:hover {
+    transform: rotateY(-8deg) scale(1.04);
+    margin-right: 12px;
+    z-index: 100;
 }
 
 /* ==================================================

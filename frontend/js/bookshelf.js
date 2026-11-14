@@ -33,3 +33,39 @@ async function loadBookshelfBooks() {
         console.error("Bookshelf API error", error);
     }
 }
+
+function renderBookshelf(books) {
+
+    const shelves = [shelf1, shelf2, shelf3];
+
+    books.forEach(function(book, index) {
+
+        const bookElement =document.createElement("div");
+
+        bookElement.classList.add("book");
+
+        bookElement.innerHTML = `
+            <img
+                src="${book.cover}"
+                class="book-cover"
+                alt="${book.title}"
+            >
+
+            <div class="book-spine"></div>
+        `;
+
+        bookElement.addEventListener("click", function() {
+
+            window.location.href = 
+               `book-detail.html?id=${encodeURIComponent(book.id)}`;
+
+        });
+
+        const shelfIndex = Math.floor(index / 4); //divides the books into groups of four
+
+        shelves[shelfIndex].appendChild(bookElement);
+    
+    });
+}
+
+loadBookshelfBooks();

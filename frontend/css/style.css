@@ -407,8 +407,16 @@ img {
     border-radius: 4px;
 }
 
-.book {
-    /* individual book */
+.hero-bookshelf .books {
+    /* Homepage book container */
+}
+
+.hero-bookshelf .book {
+    /* Homepage individual book */
+}
+
+.hero-bookshelf .book .book-cover {
+    /* Homepage book cover */
 }
 
 /* ==================================================
@@ -2125,9 +2133,12 @@ img {
 }
 
 .books-section-header h2 {
+    margin-top: 35px;
+    margin-left: 25px;
     color: var(--primary);
+    font-family: "Epilogue";
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* Load More Button */

@@ -2099,6 +2099,9 @@ img {
 /* ==================================================
    BOOK SEARCH
 ================================================== */
+.book-search .container {
+    position: relative;
+}
 
 .book-search {
     padding: 100px 0;

@@ -276,8 +276,6 @@ img {
 }
 
 
-
-
 /* ==================================================
    5. HERO BOOKSHELF
    ================================================== */
@@ -321,6 +319,7 @@ img {
     width: 75px;
     top: 277px;
     right: 20px;
+    z-index: 101;
 
 }
 
@@ -365,16 +364,12 @@ img {
     display: flex;
     align-items: flex-end;
 
-    gap: 5px;
-
-    padding: 10px 12px 12px;
+    padding: 0 12px;
 
     background-color: #80694b;
-
     border-bottom: 12px solid #5f4933;
 
     box-sizing: border-box;
-
     overflow: visible;
 }
 
@@ -392,30 +387,28 @@ img {
     background-color: rgba(45, 32, 20, 0.12);
 }
 
-
-.bookshelf-bottom {
-    position: absolute;
-
-    bottom: -8px;
-    left: -8px;
-
-    width: calc(100% + 16px);
-    height: 18px;
-
-    background-color: #634d36;
-
-    border-radius: 4px;
+.hero-bookshelf .shelf-row {
+    position: relative;
+    z-index: 1;
 }
+
+.hero-bookshelf .shelf-row:hover {
+    z-index: 10;
+} 
+
 
 /* Homepage bookshelf books */
 .hero-bookshelf .books {
     width: 100%;
     height: 100%;
+
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
+
     gap: 5px;
-    padding: 0 12px;
+    padding: 0;
+
     box-sizing: border-box;
     overflow: visible;
 }
@@ -423,9 +416,13 @@ img {
 /* Individual book */
 .hero-bookshelf .book {
     position: relative;
+    overflow: visible;
+
     flex: 0 0 auto;
     width: 22px;
     height: 90px;
+
+    margin-right: -5px;
     cursor: pointer;
 
     transform-origin: bottom center;
@@ -441,6 +438,8 @@ img {
 /* Book cover */
 .hero-bookshelf .book .book-cover {
     position: absolute;
+    display: block;
+
     left: 0;
     bottom: 0;
 
@@ -454,6 +453,14 @@ img {
     border-radius: 2px 2px 0 0;
 
     box-shadow: 2px 0 3px rgba(45, 32, 20, 0.18);
+    z-index: 2;
+
+    transition:
+        width 0.3s ease,
+        height 0.3s ease,
+        left 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 /* Book spine */
@@ -472,6 +479,9 @@ img {
         rgba(255, 255, 255, 0.22)
     );
 
+    border-radius: 2px 0 0 0;
+    box-shadow: 1px 0 2px rgba(35, 23, 14, 0.18);
+
     z-index: 3;
     pointer-events: none;
 }
@@ -482,6 +492,41 @@ img {
     margin-right: 12px;
     z-index: 100;
 }
+
+.hero-bookshelf .book:hover .book-cover {
+    width: auto !important;
+    height: 170px !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    object-fit: contain;
+    object-position: bottom center;
+
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(45, 32, 20, 0.3);
+
+    z-index: 999;
+}
+
+
+.bookshelf-bottom {
+    position: absolute;
+
+    bottom: -8px;
+    left: -8px;
+
+    width: calc(100% + 16px);
+    height: 18px;
+
+    background-color: #634d36;
+
+    border-radius: 4px;
+}
+
 
 /* ==================================================
    6. TRENDING BOOKS

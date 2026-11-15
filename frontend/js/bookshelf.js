@@ -36,7 +36,7 @@ async function loadBookshelfBooks() {
 
 function renderBookshelf(books) {
 
-    const shelves = [shelf1, shelf2, shelf3];
+    const shelves = [shelf1, shelf2];
 
     books.forEach(function(book, index) {
 
@@ -61,7 +61,7 @@ function renderBookshelf(books) {
 
         });
 
-        const shelfIndex = Math.floor(index / 4); //divides the books into groups of four
+        const shelfIndex = index < 8 ? 0 : 1;
 
         shelves[shelfIndex].appendChild(bookElement);
     

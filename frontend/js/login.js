@@ -7,6 +7,20 @@ const passwordInput = document.querySelector("#password");
 const emailError = document.querySelector("#email-error");
 const passwordError = document.querySelector("#password-error");
 
+const registerSuccessMessage = document.querySelector(
+    "#register-success-message"
+);
+
+const registerSuccess = sessionStorage.getItem("registerSuccess");
+
+
+if (registerSuccess) {
+    registerSuccessMessage.textContent = registerSuccess;
+    registerSuccessMessage.classList.add("success-message");
+
+    sessionStorage.removeItem("registerSuccess");
+}
+
 form.addEventListener("submit", function(event){
      
     event.preventDefault();

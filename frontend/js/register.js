@@ -105,6 +105,13 @@ form.addEventListener("submit", function(event){
         localStorage.setItem("user", JSON.stringify(user));
 
         console.log("user registered successfully");
+
+        sessionStorage.setItem(
+            "registerSuccess",
+            "Account created successfully! Please sign in."
+        );
+        
+        window.location.href = "login.html";
     }
 
 });

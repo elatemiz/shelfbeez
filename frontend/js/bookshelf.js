@@ -7,7 +7,7 @@ async function loadBookshelfBooks() {
     try {
 
         const response = await fetch(
-            "https://openlibrary.org/search.json?q=subject:fiction&limit=12&fields=key,title,author_name,cover_i"
+            "https://openlibrary.org/search.json?q=subject:fiction&limit=16&fields=key,title,author_name,cover_i"
         );
 
         const data = await response.json();
@@ -61,7 +61,7 @@ function renderBookshelf(books) {
 
         });
 
-        const shelfIndex = index < 8 ? 0 : 1;
+        const shelfIndex = index < 12 ? 0 : 1;
 
         shelves[shelfIndex].appendChild(bookElement);
     

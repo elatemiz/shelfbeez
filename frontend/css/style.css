@@ -853,6 +853,12 @@ img {
 
 /* ==================== LOGIN HEADER ==================== */
 
+.success-message {
+    color: #4f8a62;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
 .login-header {
     text-align: center;
     margin-bottom: 30px;

@@ -12,6 +12,7 @@ const user = storedUser ? JSON.parse(storedUser) : null;
 if (user) {
     profileName.textContent = user.name;
     profileUsername.textContent = `@${user.username}`;
+    profileBio.textContent = user.bio || "Books, stories and little moments.";
 
     const savedAvatar = user.profilePicture;
 

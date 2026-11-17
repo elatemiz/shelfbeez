@@ -5,6 +5,7 @@ const profileName = document.querySelector("#profile-name");
 const profileUsername = document.querySelector("#profile-username");
 const booksCount = document.querySelector("#books-count");
 const profileAvatar = document.querySelector("#profile-avatar-img");
+const profileBio = document.querySelector("#profile-bio");
 
 const storedUser = localStorage.getItem("user");
 const user = storedUser ? JSON.parse(storedUser) : null;
@@ -76,7 +77,6 @@ const uploadAvatarButton = document.querySelector("#upload-avatar-btn");
 const avatarUploadInput = document.querySelector("#avatar-upload-input");
 const removeAvatarButton = document.querySelector("#remove-avatar-btn");
 
-const profileBio = document.querySelector("#profile-bio");
 
 const viewAllActivitiesLink = document.querySelector("#view-all-activities");
 

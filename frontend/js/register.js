@@ -13,7 +13,7 @@ const emailError = document.querySelector("#email-error");
 const passwordError = document.querySelector("#password-error");
 const confirmPasswordError = document.querySelector("#confirm-password-error");
 
-form.addEventListener("submit", function(event){
+form.addEventListener("submit", async function(event){
       
     event.preventDefault();
 
@@ -93,25 +93,52 @@ form.addEventListener("submit", function(event){
         isValid = false;
     }
 
-    if(isValid){
-        const user = {
-            name: name,
-            username: username,
-            email: email,
-            password: password,
-            books: []
-        };
-
-        localStorage.setItem("user", JSON.stringify(user));
-
-        console.log("user registered successfully");
-
-        sessionStorage.setItem(
-            "registerSuccess",
-            "Account created successfully! Please sign in."
-        );
-        
-        window.location.href = "login.html";
+    if (isValid) {
+        try {
+            // Send registration data to the backend.
+            const response = await fetch( 
+                //frontend now sends requests to the backend's Register endpoint
+                "http://localhost:3000/api/auth/register",
+                {
+                    method: "POST",
+    
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    
+                    //Convert the JavaScript object to JSON format and send it to the backend
+                    body: JSON.stringify({
+                        name: name,
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+    
+            // Read the server response.
+            const data = await response.json();
+    
+            // Handle registration errors.
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+    
+            // Store the registration success message.
+            sessionStorage.setItem(
+                "registerSuccess",
+                "Account created successfully! Please sign in."
+            );
+    
+            // Redirect to the login page.
+            window.location.href = "login.html";
+    
+        } catch (error) {
+            console.error("Registration error:", error);
+    
+            alert("Unable to connect to the server. Please try again.");
+        }
     }
 
 });

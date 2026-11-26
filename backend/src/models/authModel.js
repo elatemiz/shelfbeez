@@ -33,8 +33,36 @@ async function findUserByLogin(identifier) {
     return rows[0];
 }
 
+
+// Find a user by ID.
+async function findUserById(userId) { //user ID that we will obtain from the JWT
+    const [rows] = await db.query(
+        `SELECT id, username, email, name, bio, avatar_url, created_at
+         FROM users
+         WHERE id = ?
+         LIMIT 1`,
+        [userId]
+    );
+
+    return rows[0]; //Returns the found user. If the user is not found, it becomes undefined.
+}
+
+
+async function updateUserProfile(userId, name, username, bio) {
+    const [result] = await db.query(
+        `UPDATE users
+         SET name = ?, username = ?, bio = ?
+         WHERE id = ?`,
+        [name, username, bio, userId]
+    );
+
+    return result.affectedRows;
+}
+
 module.exports = {
     findUserByEmailOrUsername,
     createUser,
-    findUserByLogin
+    findUserByLogin,
+    findUserById,
+    updateUserProfile
 };

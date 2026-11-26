@@ -7,6 +7,7 @@ const authController = require("../controllers/authController");
 
 const authenticateToken = require("../middleware/authMiddleware");
 
+
 // Register a new user
 router.post("/register", authController.register);
 //router.post: Expects an HTTP POST request
@@ -17,11 +18,17 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 
 // Get the authenticated user's profile.
-router.get("/profile", authenticateToken, (req, res) => {
-    res.status(200).json({
-        message: "Protected route accessed successfully!",
-        user: req.user
-    });
-});
+router.get(
+    "/profile",
+    authenticateToken,
+    authController.getProfile
+);
+
+// Update the authenticated user's profile.
+router.put(
+    "/profile",
+    authenticateToken,
+    authController.updateProfile
+);
 
 module.exports = router; //exporting the router

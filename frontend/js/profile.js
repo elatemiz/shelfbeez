@@ -14,27 +14,6 @@ const booksCount = document.querySelector("#books-count");
 const profileAvatar = document.querySelector("#profile-avatar-img");
 const profileBio = document.querySelector("#profile-bio");
 
-const storedUser = localStorage.getItem("user");
-const user = storedUser ? JSON.parse(storedUser) : null;
-
-if (user) {
-    profileName.textContent = user.name;
-    profileUsername.textContent = `@${user.username}`;
-    profileBio.textContent = user.bio || "Books, stories and little moments.";
-
-    const savedAvatar = user.profilePicture;
-
-    if (savedAvatar) {
-        profileAvatar.src = savedAvatar;
-    }
-
-    const books = user.books || [];
-    booksCount.textContent = books.length;
-} else {
-    console.log("No logged-in user found.");
-}
-
-
 const addBookButton = document.querySelector("#open-add-book-btn");
 const addBookModal = document.querySelector("#add-book-modal");
 const cancelBookButton = document.querySelector("#cancel-book-btn");
@@ -87,6 +66,70 @@ const removeAvatarButton = document.querySelector("#remove-avatar-btn");
 
 const viewAllActivitiesLink = document.querySelector("#view-all-activities");
 
+async function loadProfile() {
+    const token = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+    const localUser = storedUser ? JSON.parse(storedUser) : null;
+
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "http://localhost:3000/api/auth/profile",
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Profile loading error:", data.message);
+
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("user");
+
+                window.location.href = "login.html";
+            }
+
+            return;
+        }
+
+        const user = {
+            ...localUser,
+            ...data.user,
+            books: localUser?.books || [],
+            profilePicture: localUser?.profilePicture || null
+        };
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        profileName.textContent = user.name;
+        profileUsername.textContent = `@${user.username}`;
+        profileBio.textContent = user.bio || "Books, stories and little moments.";
+
+        if (user.profilePicture) {
+            profileAvatar.src = user.profilePicture;
+        }
+
+        const books = user.books || [];
+        booksCount.textContent = books.length;
+
+    } catch (error) {
+        console.error("Profile loading error:", error);
+    }
+}
+
+loadProfile();
+
 let showAllActivities = false;
 
 viewAllActivitiesLink.addEventListener("click", function(event){
@@ -109,9 +152,8 @@ editProfileButton.addEventListener("click", function() {
         return;
     }
 
-    const user = JSON.parse(storedUser);  
+    const user = JSON.parse(storedUser);
 
- //`value` property because these are form fields
     editProfileName.value = user.name || "";
     editProfileUsername.value = user.username || "";
     editProfileBio.value = user.bio || "";
@@ -119,51 +161,72 @@ editProfileButton.addEventListener("click", function() {
     editProfileModal.showModal();
 });
 
-closeEditProfileButton.addEventListener("click", function() {
-    editProfileModal.close();
-});
 
-cancelEditProfileButton.addEventListener("click", function() {
-    editProfileModal.close();   
-});
+editProfileForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-editProfileForm.addEventListener("submit", function(event) {
-    event.preventDefault(); //prevents the page from refreshing when a form is submitted
+    const token = localStorage.getItem("token");
 
-    const storedUser = localStorage.getItem("user");
-
-    if(!storedUser) {
-        console.error("No logged-in user found.");
+    if (!token) {
+        console.error("No authentication token found.");
+        window.location.href = "login.html";
         return;
     }
-
-    const user = JSON.parse(storedUser);
 
     const name = editProfileName.value.trim();
     const username = editProfileUsername.value.trim();
-    const bio =editProfileBio.value.trim();
+    const bio = editProfileBio.value.trim();
 
-    if(!name || !username) {
+    if (!name || !username) {
         return;
     }
 
-    user.name = name;
-    user.username = username;
-    user.bio = bio;
+    try {
+        const response = await fetch(
+            "http://localhost:3000/api/auth/profile",
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name,
+                    username,
+                    bio
+                })
+            }
+        );
 
-    localStorage.setItem ("user", JSON.stringify(user)); //saves the updated user
+        const data = await response.json();
 
-    profileName.textContent = user.name;
-    profileUsername.textContent = `@${user.username}`;
-    profileBio.textContent = user.bio || "Books, stories and little moments.";
+        if (!response.ok) {
+            alert(data.message);
+            return;
+        }
 
-    editProfileModal.close();
+        // Save the updated user information.
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-    if (typeof updateNavbar === "function") {
-        updateNavbar();
+        // Update the profile page.
+        profileName.textContent = data.user.name;
+        profileUsername.textContent = `@${data.user.username}`;
+        profileBio.textContent = data.user.bio || "Books, stories and little moments.";
+
+        editProfileModal.close();
+
+        if (typeof updateNavbar === "function") {
+            updateNavbar();
+        }
+
+        alert("Profile updated successfully!");
+
+    } catch (error) {
+        console.error("Profile update error:", error);
+        alert("Unable to connect to the server. Please try again.");
     }
-
 });
+
 
 //Profile Avatar:
 

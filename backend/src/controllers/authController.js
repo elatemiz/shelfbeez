@@ -151,7 +151,87 @@ async function login(req, res) {
     }
 }
 
+
+async function getProfile(req, res) {
+    try {
+        // Get the user ID from the verified JWT.
+        //controller can access the user ID contained within the verified token
+        const userId = req.user.id;
+
+        // Find the user in the database.
+        const user = await authModel.findUserById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found."
+            });
+        }
+
+        return res.status(200).json({
+            message: "Profile retrieved successfully!",
+            user: user
+        });
+
+    } catch (error) {
+        console.error("Get profile error:", error);
+
+        return res.status(500).json({
+            message: "An error occurred while retrieving the profile."
+        });
+    }
+}
+
+
+async function updateProfile(req, res) {
+    try {
+        // Get the authenticated user's ID.
+        const userId = req.user.id;
+
+        // Get the updated profile information.
+        const { name, username, bio } = req.body;
+
+        // Validate required fields.
+        if (!name || !username) {
+            return res.status(400).json({
+                message: "Name and username are required."
+            });
+        }
+
+        // Update the user's profile in the database.
+        await authModel.updateUserProfile(
+            userId,
+            name.trim(),
+            username.trim().toLowerCase(),
+            bio ? bio.trim() : ""
+        );
+
+        // Retrieve the updated profile.
+        const updatedUser = await authModel.findUserById(userId);
+
+        return res.status(200).json({
+            message: "Profile updated successfully!",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        // Handle duplicate usernames.
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
+                message: "This username is already taken."
+            });
+        }
+
+        console.error("Update profile error:", error);
+
+        return res.status(500).json({
+            message: "An error occurred while updating the profile."
+        });
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getProfile,
+    updateProfile
 };

@@ -35,6 +35,9 @@ function updateNavbar() {
         logoutButton.addEventListener("click", function() {
 
         localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+
         window.location.href = "index.html";
 
         });

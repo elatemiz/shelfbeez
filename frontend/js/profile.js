@@ -1,4 +1,11 @@
 
+// Check whether the user is logged in.
+const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
+
 let editingBookId = null;
 
 const profileName = document.querySelector("#profile-name");

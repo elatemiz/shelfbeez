@@ -106,7 +106,9 @@ form.addEventListener("submit", async function(event) {
                 JSON.stringify(data.user)
             );
 
-            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("token", data.token); //JWT sent by the backend in the login response
+
+            localStorage.setItem("isLoggedIn", "true"); 
 
             console.log("Login successful!");
 

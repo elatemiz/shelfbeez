@@ -1,6 +1,7 @@
 
 const bcrypt = require("bcryptjs");
 const authModel = require("../models/authModel");
+const jwt = require("jsonwebtoken");
 
 // Register a new user.
 async function register(req, res) {
@@ -118,9 +119,21 @@ async function login(req, res) {
             });
         }
 
+        // Generate a JWT token.
+        const token = jwt.sign(
+       {
+        id: user.id //It places the user ID into the token
+       },
+        process.env.JWT_SECRET, //It uses the secret key to sign the token
+       {
+        expiresIn: "1h" //Ensures the token is valid for 1 hour.
+       }
+);
+
         // Send a successful response.
         return res.status(200).json({
             message: "Login successful!",
+            token: token,
             user: {
                 id: user.id,
                 username: user.username,

@@ -116,10 +116,17 @@ async function loadProfile() {
         profileUsername.textContent = `@${user.username}`;
         profileBio.textContent = user.bio || "Books, stories and little moments.";
 
-        if (user.profilePicture) {
-            profileAvatar.src = user.profilePicture;
-        }
+        const defaultAvatar = "assets/images/profile_placeholder.png";
 
+    if (user.avatar_url) {
+       const imageUrl = `http://localhost:3000${user.avatar_url}`;
+
+       profileAvatar.src = imageUrl;
+    } else if (user.profilePicture) {
+       profileAvatar.src = user.profilePicture;
+    } else {
+       profileAvatar.src = defaultAvatar;
+    }
         const books = user.books || [];
         booksCount.textContent = books.length;
 
@@ -249,78 +256,134 @@ uploadAvatarButton.addEventListener("click", function() {
     avatarUploadInput.click();
 });
 
-avatarUploadInput.addEventListener("change", function(){ //The 'change' event occurs when the value of an input changes.
 
-    const file = avatarUploadInput.files[0]; // we take the first element beacuse we do not allow multiple files to be selected in our input.
+avatarUploadInput.addEventListener("change", async function() {
+    const file = avatarUploadInput.files[0];
 
-    if (!file) { //Check whether the `file` variable is empty or does not exist.
+    if (!file) {
         return;
     }
 
-    if (!file.type.startsWith("image/")) {  //startsWith() is a string method. It checks whether a text begins with a specific expression.
+    // Validate the selected file.
+    if (!file.type.startsWith("image/")) {
         alert("Please select an image file.");
+        avatarUploadInput.value = "";
         return;
     }
 
-    if (file.size > 2 * 1024 *1024) {
-        alert( "Image size must be smaller than 2 MB.");
+    if (file.size > 2 * 1024 * 1024) {
+        alert("Image size must be smaller than 2 MB.");
+        avatarUploadInput.value = "";
         return;
     }
 
-    //Reading a photo with FileReader, it is a built-in JavaScript API .
+    const token = localStorage.getItem("token");
 
-    const reader = new FileReader();
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
 
-    reader.onload = function(event) { 
-        const imageData = event.target.result; 
-        //event.target: The object on which the event occurred—in this case, the FileReader.
+    // Prepare the image for upload.
+    //allows to send the file via an HTTP request. The name "avatar" here must match the "avatar" specified in `upload.single("avatar")` on the backend.
+    const formData = new FormData();
+    formData.append("avatar", file);
 
-        //.result: The data obtained as a result of reading the file.
+    try {
+        const response = await fetch(
+            "http://localhost:3000/api/auth/profile/avatar",
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData
+            }
+        );
 
-        const storedUser = localStorage.getItem("user"); //retrieving user data from localStorage
+        const data = await response.json();
 
-        if (!storedUser) {
+        if (!response.ok) {
+            alert(data.message || "Unable to upload profile picture.");
             return;
         }
-        const user = JSON.parse(storedUser); //converting user data into a JavaScript object. string to object
 
-        user.profilePicture = imageData; //adding the photo to the user object (Object property)
+        // Preserve the user's existing local data.
+        const storedUser = localStorage.getItem("user");
+        const localUser = storedUser ? JSON.parse(storedUser) : {};
 
-        localStorage.setItem("user", JSON.stringify(user)); //object → JSON string
+        const updatedUser = {
+            ...localUser,
+            ...data.user
+        };
 
-        profileAvatar.src = imageData;
-        largeAvatar.src = imageData;
+        localStorage.setItem("user", JSON.stringify(updatedUser));
 
-        avatarUploadInput.value = ""; //clearing the file input
+        // Display the uploaded image.
+        const imageUrl = `http://localhost:3000${data.user.avatar_url}`;
 
+        profileAvatar.src = imageUrl;
+        largeAvatar.src = imageUrl;
+
+        avatarUploadInput.value = "";
         avatarModal.close();
-    };
 
-    reader.readAsDataURL(file);
+    } catch (error) {
+        console.error("Avatar upload error:", error);
+        alert("Unable to connect to the server. Please try again.");
+    }
 });
 
 //Remove Avatar:
 
-removeAvatarButton.addEventListener("click", function() {
-    const storedUser = localStorage.getItem("user");
+removeAvatarButton.addEventListener("click", async function() {
+    const token = localStorage.getItem("token");
 
-    if( !storedUser) {
+    if (!token) {
+        window.location.href = "login.html";
         return;
     }
+    
+    //tell the backend to remove the photo via a DELETE request.
+    try {
+        const response = await fetch(
+            "http://localhost:3000/api/auth/profile/avatar",
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
 
-    const user = JSON.parse(storedUser);
+        const data = await response.json();
 
-    delete user.profilePicture; // delete properties of JavaScript objects.
+        if (!response.ok) {
+            alert(data.message || "Unable to remove profile picture.");
+            return;
+        }
 
-    localStorage.setItem("user", JSON.stringify(user)); //deleting it from the JavaScript object is not enough, must update the old data in localStorage.
+        // Update the local user data.
+        const storedUser = localStorage.getItem("user");
+        const user = storedUser ? JSON.parse(storedUser) : {};
 
-    const defaultAvatar = "assets/images/profile_placeholder.png";
+        Object.assign(user, data.user);
+        delete user.profilePicture;
 
-    profileAvatar.src = defaultAvatar;
-    largeAvatar.src = defaultAvatar;
+        localStorage.setItem("user", JSON.stringify(user));
 
-    avatarModal.close();
+        // Display the default avatar.
+        const defaultAvatar = "assets/images/profile_placeholder.png";
 
+        profileAvatar.src = defaultAvatar;
+        largeAvatar.src = defaultAvatar;
+
+        avatarModal.close();
+
+    } catch (error) {
+        console.error("Avatar removal error:", error);
+        alert("Unable to connect to the server. Please try again.");
+    }
 });
 
 

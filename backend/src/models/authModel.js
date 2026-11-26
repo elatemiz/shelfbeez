@@ -59,10 +59,22 @@ async function updateUserProfile(userId, name, username, bio) {
     return result.affectedRows;
 }
 
+async function updateUserAvatar(userId, avatarUrl) {
+    const [result] = await db.query(
+        `UPDATE users
+         SET avatar_url = ?
+         WHERE id = ?`,
+        [avatarUrl, userId]
+    );
+
+    return result.affectedRows;
+}
+
 module.exports = {
     findUserByEmailOrUsername,
     createUser,
     findUserByLogin,
     findUserById,
-    updateUserProfile
+    updateUserProfile,
+    updateUserAvatar
 };

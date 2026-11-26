@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 // Configure Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //Register authentication routes
 app.use("/api/auth", authRoutes); ///api/auth will serve as a base path (prefix)

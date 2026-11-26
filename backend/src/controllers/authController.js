@@ -2,6 +2,8 @@
 const bcrypt = require("bcryptjs");
 const authModel = require("../models/authModel");
 const jwt = require("jsonwebtoken");
+const fs = require("fs/promises"); 
+const path = require("path");
 
 // Register a new user.
 async function register(req, res) {
@@ -229,9 +231,104 @@ async function updateProfile(req, res) {
     }
 }
 
+// Upload the authenticated user's profile picture.
+async function uploadAvatar(req, res) {
+    try {
+        const userId = req.user.id;
+
+        //req.file: access the file uploaded by Multer
+
+        // Check whether a file was uploaded.
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Please select an image."
+            });
+        }
+
+        // Create the image URL.
+        const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+
+        // Save the image URL in the database.
+        await authModel.updateUserAvatar(userId, avatarUrl);
+
+        // Retrieve the updated user.
+        const updatedUser = await authModel.findUserById(userId);
+
+        return res.status(200).json({
+            message: "Profile picture uploaded successfully!",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error("Avatar upload error:", error);
+
+        return res.status(500).json({
+            message: "An error occurred while uploading the profile picture."
+        });
+    }
+}
+
+// Remove the authenticated user's profile picture.
+async function removeAvatar(req, res) {
+    try {
+        const userId = req.user.id;
+
+        // Get the user's current profile information.
+        const user = await authModel.findUserById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found."
+            });
+        }
+
+        // Check whether the user has a profile picture.
+        if (user.avatar_url) {
+            const filename = path.basename(user.avatar_url);
+            //path.basename() extracts only the filename from a file path
+
+            const avatarPath = path.join(
+                __dirname,
+                "../../uploads/avatars",
+                filename
+            );
+            
+            //fs.unlink() deletes the photo file on the server
+            try {
+                await fs.unlink(avatarPath);
+            } catch (error) {
+                if (error.code !== "ENOENT") {
+                    throw error;
+                }
+            }
+        }
+
+        // Remove the avatar path from the database.
+        await authModel.updateUserAvatar(userId, null);
+
+        const updatedUser = await authModel.findUserById(userId);
+
+        return res.status(200).json({
+            message: "Profile picture removed successfully!",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error("Avatar removal error:", error);
+
+        return res.status(500).json({
+            message: "An error occurred while removing the profile picture."
+        });
+    }
+}
+
+
+
 module.exports = {
     register,
     login,
     getProfile,
-    updateProfile
+    updateProfile,
+    uploadAvatar,
+    removeAvatar
 };

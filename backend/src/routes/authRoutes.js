@@ -7,6 +7,7 @@ const authController = require("../controllers/authController");
 
 const authenticateToken = require("../middleware/authMiddleware");
 
+const upload = require("../config/upload");
 
 // Register a new user
 router.post("/register", authController.register);
@@ -30,5 +31,22 @@ router.put(
     authenticateToken,
     authController.updateProfile
 );
+
+// Upload the authenticated user's profile picture.
+router.post(
+    "/profile/avatar", //Sends the photo
+    authenticateToken, //Verifies that the user is logged in
+    upload.single("avatar"), //Saves the photo to the server
+    authController.uploadAvatar //Saves the photo path to MySQL
+);
+
+// Remove the authenticated user's profile picture.
+router.delete(
+    "/profile/avatar",
+    authenticateToken,
+    authController.removeAvatar
+);
+
+
 
 module.exports = router; //exporting the router

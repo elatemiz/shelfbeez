@@ -21,11 +21,11 @@ if (registerSuccess) {
     sessionStorage.removeItem("registerSuccess");
 }
 
-form.addEventListener("submit", function(event){
-     
+form.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
-    const email = emailInput.value.trim();
+    const identifier = emailInput.value.trim();
     const password = passwordInput.value;
 
     let isValid = true;
@@ -33,33 +33,20 @@ form.addEventListener("submit", function(event){
     clearError(emailInput, emailError);
     clearError(passwordInput, passwordError);
 
-    
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if(email === ""){
+    // Validate email or username.
+    if (identifier === "") {
 
         showError(
             emailInput,
             emailError,
-            "Email is required"
-        );
-
-        
-        isValid = false;
-
-    }else if(!emailPattern.test(email)){
-
-        showError(
-            emailInput, 
-            emailError,
-            "Invalid email"
+            "Email or username is required"
         );
 
         isValid = false;
     }
 
-    if(password === ""){
+    // Validate password.
+    if (password === "") {
 
         showError(
             passwordInput,
@@ -69,7 +56,7 @@ form.addEventListener("submit", function(event){
 
         isValid = false;
 
-    }else if(password.length < 8){
+    } else if (password.length < 8) {
 
         showError(
             passwordInput,
@@ -80,25 +67,61 @@ form.addEventListener("submit", function(event){
         isValid = false;
     }
 
-    if(isValid){
-        
-        const storedUser = localStorage.getItem("user");
+    // Send login request to the backend.
+    if (isValid) {
 
-        const user = JSON.parse(storedUser);
+        try {
 
-        if(email === user.email && password === user.password){
+            const response = await fetch(
+                "http://localhost:3000/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        identifier: identifier,
+                        password: password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            // Handle login errors.
+            if (!response.ok) {
+
+                showError(
+                    emailInput,
+                    emailError,
+                    data.message
+                );
+
+                return;
+            }
+
+            // Store the logged-in user's information.
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
 
             localStorage.setItem("isLoggedIn", "true");
 
+            console.log("Login successful!");
+
             window.location.href = "index.html";
 
-            console.log("Login successful");
-        } else {
+        } catch (error) {
 
-            console.log("Invalid email or password");
+            console.error("Login error:", error);
 
+            showError(
+                emailInput,
+                emailError,
+                "Unable to connect to the server. Please try again."
+            );
         }
-
     }
 
 });

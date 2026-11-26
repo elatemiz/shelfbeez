@@ -4,7 +4,6 @@ const authModel = require("../models/authModel");
 
 // Register a new user.
 async function register(req, res) {
-    console.log("REGISTER CONTROLLER CALLED!");
 
     try {
         // Get user information from the request body.
@@ -78,6 +77,68 @@ async function register(req, res) {
     }
 }
 
+// Login an existing user
+async function login(req, res) {
+    try {
+        // Get login information from the request body.
+        const { identifier, password } = req.body;
+
+        // Check whether all required fields are provided.
+        if (!identifier || !password) {
+            return res.status(400).json({
+                message: "Username/email and password are required."
+            });
+        }
+
+        // Normalize user input
+        const normalizedIdentifier = identifier.trim().toLowerCase();
+
+        // Find the user in the database.
+        const user = await authModel.findUserByLogin(
+            normalizedIdentifier
+        );
+
+        // Check whether the user exists.
+        if (!user) {
+            return res.status(401).json({
+                message: "Invalid username/email or password."
+            });
+        }
+
+        // Compare the entered password with the stored hash.
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            user.password_hash
+        );
+
+        // Check whether the password is correct.
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                message: "Invalid username/email or password."
+            });
+        }
+
+        // Send a successful response.
+        return res.status(200).json({
+            message: "Login successful!",
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                name: user.name
+            }
+        });
+
+    } catch (error) {
+        console.error("Login error:", error);
+
+        return res.status(500).json({
+            message: "An error occurred during login."
+        });
+    }
+}
+
 module.exports = {
-    register
+    register,
+    login
 };

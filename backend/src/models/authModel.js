@@ -20,7 +20,21 @@ async function createUser(username, email, passwordHash, name) {
     return result.insertId;
 }
 
+// Find a user by email or username for login.
+async function findUserByLogin(identifier) {
+    const [rows] = await db.query(
+        `SELECT id, username, email, password_hash, name
+         FROM users
+         WHERE email = ? OR username = ?
+         LIMIT 1`,
+        [identifier, identifier]
+    );
+
+    return rows[0];
+}
+
 module.exports = {
     findUserByEmailOrUsername,
-    createUser
+    createUser,
+    findUserByLogin
 };

@@ -11,4 +11,7 @@ router.post("/register", authController.register);
 //"/register": Specifies the address of the endpoint
 //authController.register: The function that is executed when a request is received
 
+// Login an existing user
+router.post("/login", authController.login);
+
 module.exports = router; //exporting the router
